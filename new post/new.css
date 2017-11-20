@@ -1,0 +1,43 @@
+textarea::-webkit-input-placeholder{
+    color: #a5a5a5;
+    font-size:  xx-large;
+}
+textarea {
+    width: 92vw;
+    height: 100px;
+}
+#details {
+    width: 92vw;
+    height: 120px;
+    font-size: xx-large;
+}
+button {
+    background-color: #5A5A5A;
+    /*height: 40vw;*/
+    width: 92vw;
+    height: 20vw;
+    font-size: xx-large;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    /*width: 100%;*/
+}
+/*input {*/
+    /*size: 300px;*/
+/*!*}*!*/
+/*div img{*/
+    /*max-width: 10%;*/
+    /*max-height: 10%;*/
+/*}*/
+
+#title {
+    margin-top: 30px;
+}
+
+#details {
+    height: 40vw;
+    text-align: left ;
+}
