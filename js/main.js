@@ -32,11 +32,8 @@ $( window ).on( "load", function() {
 
         //When clicking on the title text
         $('#feed-container').on('click', '.card-title', function(e) {
-            console.log("I am clicked")
-            $("#expandable-content").slideToggle("slow", function() {
-                // Animation complete.
-                console.log("toggled")
-            });
+            // Expand to show post description
+            $("#expandable-content").slideToggle("slow");
         })
 
             // When clicking one of the tabs
