@@ -305,8 +305,21 @@ $( window ).on( "load", function() {
                         } else if (card.my_count == 1) {
                             agreedClass = "agreed";
                         }
-                        $view.append("<div class=\"card\"" + "id=\"" + card.UID + "\"" +">\n" +
-                            "        <p class=\"card-title\">\n" +
+
+                        var cardStatusClass = 'unhandled';
+                        // When the status field is available
+                        /* if(card.status == something){
+                            cardStatusClass = 'in-progress';
+                        }
+                        else if(card.status == somethingElse){
+                            cardStatusClass = 'cancelled';
+                        }
+                        else if(card.status == anotherThing){
+                            cardStatusClass = 'closed';
+                        }*/
+
+                        $view.append("<div class=\"card " +  cardStatusClass + "\""  + "id=\"" + card.UID + "\"" +">\n" +
+                            "        <p class=\"card-title \">\n" +
                             card.title +
                             "        </p>\n" +
                             "<div id=\"expandable-content\" style=\"display: none;\">\n" +

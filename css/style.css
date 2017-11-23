@@ -38,6 +38,11 @@ body{
 
 }
 
+
+.flaticon-tabs{
+   width: ;
+}
+
 .selected{
     color: #1B9AF7;
 }
@@ -54,18 +59,42 @@ body{
     padding-bottom: 55px;
 }
 
-.in-progress{
-    background-image: ;
+.unhandled{
+
 }
 
-.card p{
-    color: #5A5A5A;
+.in-progress {
+    /* should be changed to /data/in-progress.png when hosted on on the web*/
+    background-image: url("/Democracy-App-2/data/in-progress.png");
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cancelled{
+    /* should be changed to /data/in-progress.png when hosted on on the web*/
+    background-image: url("/Democracy-App-2/data/Cancelled-01.png");
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center ;
+}
+
+.closed{
+    /* should be changed to /data/in-progress.png when hosted on on the web*/
+    background-image: url("/Democracy-App-2/data/Closed-01.png");
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center ;
+
 }
 
 .card-title{
     font-size: 3rem;
     margin: 25px;
-
+    color: #5A5A5A;
 
 }
 .expandable-content{
@@ -73,6 +102,7 @@ body{
     background: gray;
 }
 .card-content{
+    color: black;
     font-size: 1rem;
     margin: 25px;
     margin-bottom: 40px;
