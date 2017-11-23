@@ -1,7 +1,7 @@
 //firebase();
 var config = {
-    apiKey: "AIzaSyD8sQuV_OsNSqbHgVnQFKn6d2YCDGlfJxc",
-    databaseURL: "https://democracy-app-kaist.firebaseio.com/"
+    apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
+    databaseURL: "https://democracy-app-2.firebaseio.com",
 }
 
 

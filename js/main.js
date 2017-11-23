@@ -1,11 +1,11 @@
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyD8sQuV_OsNSqbHgVnQFKn6d2YCDGlfJxc",
-    authDomain: "democracy-app-kaist.firebaseapp.com",
-    databaseURL: "https://democracy-app-kaist.firebaseio.com",
-    projectId: "democracy-app-kaist",
-    storageBucket: "democracy-app-kaist.appspot.com",
-    messagingSenderId: "934147540753"
+    apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
+    authDomain: "democracy-app-2.firebaseapp.com",
+    databaseURL: "https://democracy-app-2.firebaseio.com",
+    projectId: "democracy-app-2",
+    storageBucket: "democracy-app-2.appspot.com",
+    messagingSenderId: "895134222441"
 };
 firebase.initializeApp(config);
 
@@ -30,7 +30,16 @@ $( window ).on( "load", function() {
         loadCardContent($('#feed-container'), listOfUids);
 
 
-        // When clicking one of the tabs
+        //When clicking on the title text
+        $('#feed-container').on('click', '.card-title', function(e) {
+            console.log("I am clicked")
+            $("#expandable-content").slideToggle("slow", function() {
+                // Animation complete.
+                console.log("toggled")
+            });
+        })
+
+            // When clicking one of the tabs
         $tabs.on('click', function(e) {
             // Change color of tab
             selectTab($tabs, $(e.target));
@@ -303,9 +312,11 @@ $( window ).on( "load", function() {
                             "        <p class=\"card-title\">\n" +
                             card.title +
                             "        </p>\n" +
-                            //"        <p class=\"card-content\">\n" +
-                            //card.text +
-                            //"        </p>\n" +
+                            "<div id=\"expandable-content\" style=\"display: none;\">\n" +
+                            "        <p class=\"card-content\">\n" +
+                            card.text +
+                            "        </p>\n" +
+                            "    </div>\n" +
                             "        <div class=\"footer-container\">\n" +
                             "<div class=\"flag-container\">\n" +
                             "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +

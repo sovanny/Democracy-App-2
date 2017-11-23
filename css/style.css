@@ -48,15 +48,32 @@ body{
     text-align: left;
     background-color: #FFFFFF;
     margin: 2vw 3vw 2vw 3vw;
-    height: 40vw;
+    min-height: 40vw;
     width: 92vw;
     font-family: 'Open Sans', sans-serif;
 }
 
 .card p{
-    font-size: 3rem;
+
     color: #5A5A5A;
+
+}
+
+.card-title{
+    font-size: 3rem;
     margin: 25px;
+    margin-bottom: 15%;
+}
+.expandable-content{
+    height: 100px;
+    background: gray;
+}
+.card-content{
+    font-size: 1rem;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 20%;
+
 }
 .footer-container{
     position: absolute;
