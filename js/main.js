@@ -33,7 +33,7 @@ $( window ).on( "load", function() {
         //When clicking on the title text
         $('#feed-container').on('click', '.card-title', function(e) {
             // Expand to show post description
-            $("#expandable-content").slideToggle("slow");
+            $(this).siblings('#expandable-content').slideToggle("slow");
         })
 
             // When clicking one of the tabs

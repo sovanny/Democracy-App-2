@@ -51,18 +51,22 @@ body{
     min-height: 40vw;
     width: 92vw;
     font-family: 'Open Sans', sans-serif;
+    padding-bottom: 55px;
+}
+
+.in-progress{
+    background-image: ;
 }
 
 .card p{
-
     color: #5A5A5A;
-
 }
 
 .card-title{
     font-size: 3rem;
     margin: 25px;
-    margin-bottom: 15%;
+
+
 }
 .expandable-content{
     height: 100px;
@@ -70,17 +74,17 @@ body{
 }
 .card-content{
     font-size: 1rem;
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-bottom: 20%;
+    margin: 25px;
+    margin-bottom: 40px;
 
 }
 .footer-container{
+    display: block;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 20%;
+    height: 80px;
 
 }
 
@@ -103,7 +107,7 @@ body{
     float: left;
     font-size: 1.5rem;
     margin-left: 120px;
-    bottom: 25px;
+    bottom: 30px;
     position: absolute;
     color: #5F5F5F;
 }
