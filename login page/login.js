@@ -13,14 +13,7 @@ var userRef = database.ref("users")
 var cardRef = database.ref("cards")
 
 
-//add new user manually
-// userRef.push({
-//     ID: 20150950,
-//     password: 'olzhas',
-//     posts: {first: 1,
-//     second: 2,},
-// });
-
+var currentUser = 0
 
 $(document).ready(function(){
     $("#loginBtn").click(function(){
@@ -31,7 +24,10 @@ $(document).ready(function(){
                 snapshot.forEach(function (childSnapshot) {
                     if ((childSnapshot.val().ID == id) && (childSnapshot.val().password == psw)) {
                         console.log('success');
+                       // currentUser = id;
                         // go to feed
+                        // console.log(currentUser) // = 20150950
+                        database.ref("currentUserID").push({currentUser: id});
                         window.location.href = "./index2.html";
                     } else {
                         console.log('failed');

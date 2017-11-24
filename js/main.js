@@ -16,9 +16,27 @@ firebase.initializeApp(config);
 // Get a reference to the database service
 var database = firebase.database();
 
+// get current user. -> user_id paramater might not be needed in the add_feed_uid function
+// need to make sure this is done before we proceed
+//var currentUser = 0
+promise = database.ref("currentUserID").once("value")
+    .then(function (snapshot) {
+            currentUser = snapshot.val();
+            return currentUser;
+            // console.log(snapshot.val()) // = 20150950
+        })
 
+promise.then(function(result) {
+    // we can go the stupid way, and put the rest of the code inside of here.
+    currentUser = result;
+    console.log(currentUser);
+
+    console.log(currentUser)  // this varialbe is local. We can't use it outside
+});
+
+currentUser = 20150950
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////// Some functions: start ///////////////////////////////////////////////////////////////
+///////    functions to edit 'feed_uids', 'my_votes_uids' and 'my_posts_uids' fields of 'user' cards: start       ////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // add users. Should be commented.
@@ -32,13 +50,13 @@ userRef = database.ref("users")
 // });
 
 // add a card_id to feed_uids of a given user
-// add_feed_uid(20150950, 7)
-function add_feed_uid(user_id, feed_uid) {
+// add_feed_uid(7)
+function add_feed_uid(feed_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 console.log(childSnapshot.val().ID)
-                if (childSnapshot.val().ID == user_id) {
+                if (childSnapshot.val().ID == currentUser) {
                     feed_uids_new = childSnapshot.val().feed_uids
                     feed_uids_new.push(feed_uid)
                     childSnapshot.ref.update({feed_uids: feed_uids_new});
@@ -47,13 +65,13 @@ function add_feed_uid(user_id, feed_uid) {
 }
 
 // remove a card_id from feed_uids of a given user
-// remove_feed_uid(20150950, 2)
-function remove_feed_uid(user_id, feed_uid) {
+// remove_feed_uid(2)
+function remove_feed_uid(feed_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 console.log(childSnapshot.val().ID)
-                if (childSnapshot.val().ID == user_id) {
+                if (childSnapshot.val().ID == currentUser) {
                     feed_uids_new = childSnapshot.val().feed_uids
                     // checks if feed_uid is in feed_uids, and if it is, - remove it
                     if (feed_uids_new.indexOf(feed_uid) > -1) {
@@ -66,13 +84,13 @@ function remove_feed_uid(user_id, feed_uid) {
 
 
 // add a card_id to my_posts_uids of a given user
-// add_my_post_uid(20150950, 7)
-function add_my_post_uid(user_id, my_post_uid) {
+// add_my_post_uid(7)
+function add_my_post_uid(my_post_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 console.log(childSnapshot.val().ID)
-                if (childSnapshot.val().ID == user_id) {
+                if (childSnapshot.val().ID == currentUser) {
                     my_posts_uids_new = childSnapshot.val().my_posts_uids
                     my_posts_uids_new.push(my_post_uid)
                     childSnapshot.ref.update({my_posts_uids: my_posts_uids_new});
@@ -82,12 +100,12 @@ function add_my_post_uid(user_id, my_post_uid) {
 
 // remove a card_id from my_posts_uids of a given user
 // remove_my_post_uid(20150950, 2)
-function remove_my_post_uid(user_id, my_post_uid) {
+function remove_my_post_uid(my_post_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 console.log(childSnapshot.val().ID)
-                if (childSnapshot.val().ID == user_id) {
+                if (childSnapshot.val().ID == currentUser) {
                     my_posts_uids_new = childSnapshot.val().my_posts_uids
                     // checks if my_post_uid is in my_posts_uids, and if it is, - remove it
                     if (my_posts_uids_new.indexOf(my_post_uid) > -1) {
@@ -99,13 +117,13 @@ function remove_my_post_uid(user_id, my_post_uid) {
 }
 
 // add a card_id to my_votes_uids of a given user
-// add_my_vote_uid(20150950, 7)
-function add_my_vote_uid(user_id, my_vote_uid) {
+// add_my_vote_uid(7)
+function add_my_vote_uid(my_vote_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 console.log(childSnapshot.val().ID)
-                if (childSnapshot.val().ID == user_id) {
+                if (childSnapshot.val().ID == currentUser) {
                     my_votes_uids_new = childSnapshot.val().my_votes_uids
                     my_votes_uids_new.push(my_vote_uid)
                     childSnapshot.ref.update({my_votes_uids: my_votes_uids_new});
@@ -114,13 +132,13 @@ function add_my_vote_uid(user_id, my_vote_uid) {
 }
 
 // remove a card_id from my_votes_uids of a given user
-// remove_my_vote_uid(20150950, 2)
-function remove_my_vote_uid(user_id, my_vote_uid) {
+// remove_my_vote_uid(2)
+function remove_my_vote_uid(my_vote_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 console.log(childSnapshot.val().ID)
-                if (childSnapshot.val().ID == user_id) {
+                if (childSnapshot.val().ID == currentUser) {
                     my_votes_uids_new = childSnapshot.val().my_votes_uids
                     // checks if my_vote_uid is in my_votes_uids, and if it is, - remove it
                     if (my_votes_uids_new.indexOf(my_vote_uid) > -1) {
@@ -130,13 +148,13 @@ function remove_my_vote_uid(user_id, my_vote_uid) {
                 }
             })})
 }
-//add_my_vote_uid(20150950, 4)
-//remove_my_vote_uid(20150950, 4)
+//add_my_vote_uid(4)
+//remove_my_vote_uid(4)
 
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////// Some functions: end ///////////////////////////////////////////////////////////////
+///////    functions to edit 'feed_uids', 'my_votes_uids' and 'my_posts_uids' fields of 'user' cards: end       ////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // When site had loaded
@@ -511,7 +529,6 @@ $( window ).on( "load", function() {
     }
 
 });
-
 
 
 
