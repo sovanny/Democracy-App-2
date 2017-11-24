@@ -1,6 +1,9 @@
 # Webstorm folder
 .idea/*
 .idea/workspace.xml
+.idea/
+.idea\
+.idea*
 
 # Windows image file caches
 Thumbs.db
