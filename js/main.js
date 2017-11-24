@@ -1,23 +1,143 @@
 var config = {
     apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
-<<<<<<< HEAD
     authDomain: "democracy-app-kaist.firebaseapp.com",
     databaseURL: "https://democracy-app-2.firebaseio.com/",
     projectId: "democracy-app-kaist",
     storageBucket: "democracy-app-kaist.appspot.com",
-    messagingSenderId: "934147540753"
-=======
+    messagingSenderId: "934147540753",
     authDomain: "democracy-app-2.firebaseapp.com",
     databaseURL: "https://democracy-app-2.firebaseio.com",
     projectId: "democracy-app-2",
     storageBucket: "democracy-app-2.appspot.com",
     messagingSenderId: "895134222441"
->>>>>>> origin/master
 };
 firebase.initializeApp(config);
 
 // Get a reference to the database service
 var database = firebase.database();
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////// Some functions: start ///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// add users. Should be commented.
+userRef = database.ref("users")
+// userRef.push({
+//     ID: 20150950,
+//     password: 'olzhas',
+//     feed_uids: [],
+//     my_posts_uids: [],
+//     my_votes_uids: []
+// });
+
+// add a card_id to feed_uids of a given user
+// add_feed_uid(20150950, 7)
+function add_feed_uid(user_id, feed_uid) {
+    userRef.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                console.log(childSnapshot.val().ID)
+                if (childSnapshot.val().ID == user_id) {
+                    feed_uids_new = childSnapshot.val().feed_uids
+                    feed_uids_new.push(feed_uid)
+                    childSnapshot.ref.update({feed_uids: feed_uids_new});
+                }
+            })})
+}
+
+// remove a card_id from feed_uids of a given user
+// remove_feed_uid(20150950, 2)
+function remove_feed_uid(user_id, feed_uid) {
+    userRef.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                console.log(childSnapshot.val().ID)
+                if (childSnapshot.val().ID == user_id) {
+                    feed_uids_new = childSnapshot.val().feed_uids
+                    // checks if feed_uid is in feed_uids, and if it is, - remove it
+                    if (feed_uids_new.indexOf(feed_uid) > -1) {
+                        feed_uids_new.splice(feed_uids_new.indexOf(feed_uid), 1)
+                    }
+                    childSnapshot.ref.update({feed_uids: feed_uids_new});
+                }
+            })})
+}
+
+
+// add a card_id to my_posts_uids of a given user
+// add_my_post_uid(20150950, 7)
+function add_my_post_uid(user_id, my_post_uid) {
+    userRef.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                console.log(childSnapshot.val().ID)
+                if (childSnapshot.val().ID == user_id) {
+                    my_posts_uids_new = childSnapshot.val().my_posts_uids
+                    my_posts_uids_new.push(my_post_uid)
+                    childSnapshot.ref.update({my_posts_uids: my_posts_uids_new});
+                }
+            })})
+}
+
+// remove a card_id from my_posts_uids of a given user
+// remove_my_post_uid(20150950, 2)
+function remove_my_post_uid(user_id, my_post_uid) {
+    userRef.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                console.log(childSnapshot.val().ID)
+                if (childSnapshot.val().ID == user_id) {
+                    my_posts_uids_new = childSnapshot.val().my_posts_uids
+                    // checks if my_post_uid is in my_posts_uids, and if it is, - remove it
+                    if (my_posts_uids_new.indexOf(my_post_uid) > -1) {
+                        my_posts_uids_new.splice(my_posts_uids_new.indexOf(my_post_uid), 1)
+                    }
+                    childSnapshot.ref.update({my_posts_uids: my_posts_uids_new});
+                }
+            })})
+}
+
+// add a card_id to my_votes_uids of a given user
+// add_my_vote_uid(20150950, 7)
+function add_my_vote_uid(user_id, my_vote_uid) {
+    userRef.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                console.log(childSnapshot.val().ID)
+                if (childSnapshot.val().ID == user_id) {
+                    my_votes_uids_new = childSnapshot.val().my_votes_uids
+                    my_votes_uids_new.push(my_vote_uid)
+                    childSnapshot.ref.update({my_votes_uids: my_votes_uids_new});
+                }
+            })})
+}
+
+// remove a card_id from my_votes_uids of a given user
+// remove_my_vote_uid(20150950, 2)
+function remove_my_vote_uid(user_id, my_vote_uid) {
+    userRef.once("value")
+        .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                console.log(childSnapshot.val().ID)
+                if (childSnapshot.val().ID == user_id) {
+                    my_votes_uids_new = childSnapshot.val().my_votes_uids
+                    // checks if my_vote_uid is in my_votes_uids, and if it is, - remove it
+                    if (my_votes_uids_new.indexOf(my_vote_uid) > -1) {
+                        my_votes_uids_new.splice(my_votes_uids_new.indexOf(my_vote_uid), 1)
+                    }
+                    childSnapshot.ref.update({my_votes_uids: my_votes_uids_new});
+                }
+            })})
+}
+//add_my_vote_uid(20150950, 4)
+//remove_my_vote_uid(20150950, 4)
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////// Some functions: end ///////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // When site had loaded
 $( window ).on( "load", function() {
