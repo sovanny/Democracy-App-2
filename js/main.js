@@ -569,17 +569,49 @@ $(window).on("load", function () {
 
     function getUidList(nameOfList) {
         var listOfUids = []
-        var myPostsListRef = database.ref(nameOfList);
+        var ref = database.ref('users');
 
-        myPostsListRef.once("value")
+        ref.once("value")
             .then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
-                    listOfUids.push(childSnapshot.val().UID)
+                    if (childSnapshot.val().ID == currentUser) {
+                        if (nameOfList == 'feed_uids') {
+                            temp = childSnapshot.val().feed_uids
+                            for (i = 0; i < temp.length; i++) {
+                                listOfUids.push(temp[i])
+                            }
+                        } else if (nameOfList == 'my_posts_uids') {
+                            temp = childSnapshot.val().my_posts_uids
+                            for (i = 0; i < temp.length; i++) {
+                                listOfUids.push(temp[i])
+                            }
+                        } else if (nameOfList == 'my_votes_uids') {
+                            temp = childSnapshot.val().my_votes_uids
+                            for (i = 0; i < temp.length; i++) {
+                                listOfUids.push(temp[i])
+                            }
+                        }
+
+                    }
+
                 })
             })
+        //console.log(listOfUids)
         return listOfUids;
     }
-
+    //
+    // function getUidList(nameOfList) {
+    //     var listOfUids = []
+    //     var myPostsListRef = database.ref(nameOfList);
+    //
+    //     myPostsListRef.once("value")
+    //         .then(function (snapshot) {
+    //             snapshot.forEach(function (childSnapshot) {
+    //                 listOfUids.push(childSnapshot.val().UID)
+    //             })
+    //         })
+    //     return listOfUids;
+    // }
 });
 
 
