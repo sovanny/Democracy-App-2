@@ -38,9 +38,11 @@ body{
 
 }
 
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {
 
-.flaticon-tabs{
-   width: ;
+    font-size: 1.5em;
+
 }
 
 .selected{
@@ -63,9 +65,10 @@ body{
 
 }
 
+
 .in-progress {
     /* should be changed to /data/in-progress.png when hosted on on the web*/
-    background-image: url("/Democracy-App-2/data/in-progress.png");
+    background-image: url("/Democracy-App-2/data/in-progress2.png");
     background-size: cover;
     background-size: contain;
     background-repeat: no-repeat;
@@ -74,7 +77,7 @@ body{
 
 .cancelled{
     /* should be changed to /data/in-progress.png when hosted on on the web*/
-    background-image: url("/Democracy-App-2/data/Cancelled-01.png");
+    background-image: url("/Democracy-App-2/data/Cancelled2-01.png");
     background-size: cover;
     background-size: contain;
     background-repeat: no-repeat;
@@ -83,7 +86,7 @@ body{
 
 .closed{
     /* should be changed to /data/in-progress.png when hosted on on the web*/
-    background-image: url("/Democracy-App-2/data/Closed-01.png");
+    background-image: url("/Democracy-App-2/data/Closed2-01.png");
     background-size: cover;
     background-size: contain;
     background-repeat: no-repeat;

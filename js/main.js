@@ -16,12 +16,13 @@ var database = firebase.database();
 $( window ).on( "load", function() {
 
     //Run main function
-    start()
+    start();
 
     function start() {
 
         // A variable for the tabs
-        const $tabs = $('#bottom-navbar .tab')
+        var $tabs = $('#bottom-navbar .tab');
+        $tabs.push($('.tab-child'))
 
         // Run selectTab and loadCardContent once in order to show something upon loading
         selectTab($tabs, $($tabs[0]))
@@ -79,8 +80,25 @@ $( window ).on( "load", function() {
     // function definition
     function selectTab($tabs, $tab) {
         const selectedClass = 'selected';
-        $tabs.removeClass(selectedClass);
-        $tab.addClass(selectedClass);
+
+        if ($tab.hasClass('tab')){
+            $tabs.removeClass(selectedClass);
+            $tabs.children().removeClass(selectedClass);
+
+            $tab.addClass(selectedClass);
+            $tab.children().addClass(selectedClass);
+        }
+        else if($tab.hasClass('tab-child')){
+            $tabs.removeClass(selectedClass);
+            $tabs.children().removeClass(selectedClass);
+
+            $tab.addClass(selectedClass);
+            $tab.parent().addClass(selectedClass);
+        }
+
+
+
+
     }
 
     function agree($button){
@@ -245,20 +263,20 @@ $( window ).on( "load", function() {
         const $view = $('#feed-container')
 
         //Check the ID of the tab clicked
-        if ($tab.attr('id') == 'home-feed-view'){
+        if ($tab.hasClass('home-feed-view')){
             var listOfUids = getUidList('feed_uids');
             loadCardContent($view, listOfUids);
         }
-        else if ($tab.attr('id') == 'my-votes-view'){
+        else if ($tab.hasClass('my-votes-view')){
             var listOfUids = getUidList('my_votes_uids');
             loadCardContent($view, listOfUids);
         }
-        else if ($tab.attr('id') == 'my-posts-view') {
+        else if ($tab.hasClass('my-posts-view')) {
 
             var listOfUids = getUidList('my_posts_uids');
             loadCardContent($view, listOfUids);
         }
-        else if ($tab.attr('id') == 'new-post-view'){
+        else if ($tab.hasClass('new-post-view')){
             loadHtml($view, 'new post/new');
         }
     }
@@ -332,7 +350,7 @@ $( window ).on( "load", function() {
                             "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +
                             "        </div>\n" +
                             "    <div class=\"date-container\">\n" +
-                            "        13 nov '17\n" +
+                            card.time_stamp.toString().substr(0,10) +
                             "    </div>\n" +
                             "\n" +
                             "        <div class=\"disagree-container\">\n" +
