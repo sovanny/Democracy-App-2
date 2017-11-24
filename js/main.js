@@ -1,18 +1,11 @@
+// Initialize Firebase
 var config = {
     apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
-<<<<<<< HEAD
-    authDomain: "democracy-app-kaist.firebaseapp.com",
-    databaseURL: "https://democracy-app-2.firebaseio.com/",
-    projectId: "democracy-app-kaist",
-    storageBucket: "democracy-app-kaist.appspot.com",
-    messagingSenderId: "934147540753"
-=======
     authDomain: "democracy-app-2.firebaseapp.com",
     databaseURL: "https://democracy-app-2.firebaseio.com",
     projectId: "democracy-app-2",
     storageBucket: "democracy-app-2.appspot.com",
     messagingSenderId: "895134222441"
->>>>>>> origin/master
 };
 firebase.initializeApp(config);
 
@@ -20,7 +13,7 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // When site had loaded
-$( window ).on( "load", function() {
+$(window).on("load", function () {
 
     //Run main function
     start();
@@ -39,13 +32,13 @@ $( window ).on( "load", function() {
 
 
         //When clicking on the title text
-        $('#feed-container').on('click', '.card-title', function(e) {
+        $('#feed-container').on('click', '.card-title', function (e) {
             // Expand to show post description
             $(this).siblings('#expandable-content').slideToggle("slow");
         })
 
-            // When clicking one of the tabs
-        $tabs.on('click', function(e) {
+        // When clicking one of the tabs
+        $tabs.on('click', function (e) {
             // Change color of tab
             selectTab($tabs, $(e.target));
             // Display the right view
@@ -53,12 +46,14 @@ $( window ).on( "load", function() {
         })
 
         // when clicking on checkmark
-        $('#feed-container').on('click', '.fa-check', function(e){
+        $('#feed-container').on('click', '.fa-check', function (e) {
             agree($(e.target));
 
             var x = document.getElementById("snackbar")
             x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            setTimeout(function () {
+                x.className = x.className.replace("show", "");
+            }, 3000);
 
 
             var uidList;
@@ -66,19 +61,21 @@ $( window ).on( "load", function() {
             // setTimeout(function() { loadCardContent($('#feed-container'), uidList); }, 3000);
 
 
-    })
+        })
         // when clicking on X
-        $('#feed-container').on('click', '.fa-times', function(e){
+        $('#feed-container').on('click', '.fa-times', function (e) {
             disAgree($(e.target));
 
             var x = document.getElementById("snackbar")
             x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            setTimeout(function () {
+                x.className = x.className.replace("show", "");
+            }, 3000);
 
             // loadCardContent($('#feed-container'), getUidList('feed_uids'));
         })
         // when clicking on flag
-        $('#feed-container').on('click', '.fa-flag', function(e){
+        $('#feed-container').on('click', '.fa-flag', function (e) {
             flagPost($(e.target));
         })
 
@@ -88,14 +85,14 @@ $( window ).on( "load", function() {
     function selectTab($tabs, $tab) {
         const selectedClass = 'selected';
 
-        if ($tab.hasClass('tab')){
+        if ($tab.hasClass('tab')) {
             $tabs.removeClass(selectedClass);
             $tabs.children().removeClass(selectedClass);
 
             $tab.addClass(selectedClass);
             $tab.children().addClass(selectedClass);
         }
-        else if($tab.hasClass('tab-child')){
+        else if ($tab.hasClass('tab-child')) {
             $tabs.removeClass(selectedClass);
             $tabs.children().removeClass(selectedClass);
 
@@ -104,11 +101,9 @@ $( window ).on( "load", function() {
         }
 
 
-
-
     }
 
-    function agree($button){
+    function agree($button) {
         const agreedClass = 'agreed';
         const notClickedClass = 'notClicked';
         if ($button.hasClass(agreedClass)) {
@@ -182,7 +177,7 @@ $( window ).on( "load", function() {
 
     }
 
-    function disAgree($button){
+    function disAgree($button) {
         const disagreedClass = 'disagreed';
         const notClickedClass = 'notClicked';
         if ($button.hasClass(disagreedClass)) {
@@ -256,7 +251,7 @@ $( window ).on( "load", function() {
 
     }
 
-    function flagPost($button){
+    function flagPost($button) {
         const flaggedClass = 'flagged';
         const notClickedClass = 'notClicked';
         $button.removeClass(notClickedClass);
@@ -264,17 +259,17 @@ $( window ).on( "load", function() {
     }
 
     // function definition
-    function changeContent($tab){
+    function changeContent($tab) {
 
         // What element to append view to
         const $view = $('#feed-container')
 
         //Check the ID of the tab clicked
-        if ($tab.hasClass('home-feed-view')){
+        if ($tab.hasClass('home-feed-view')) {
             var listOfUids = getUidList('feed_uids');
             loadCardContent($view, listOfUids);
         }
-        else if ($tab.hasClass('my-votes-view')){
+        else if ($tab.hasClass('my-votes-view')) {
             var listOfUids = getUidList('my_votes_uids');
             loadCardContent($view, listOfUids);
         }
@@ -283,7 +278,7 @@ $( window ).on( "load", function() {
             var listOfUids = getUidList('my_posts_uids');
             loadCardContent($view, listOfUids);
         }
-        else if ($tab.hasClass('new-post-view')){
+        else if ($tab.hasClass('new-post-view')) {
             loadHtml($view, 'new post/new');
         }
     }
@@ -317,15 +312,15 @@ $( window ).on( "load", function() {
 
 
         cardContent.once("value")
-            .then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
+            .then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
                     card = childSnapshot.val()
-                    if (uidList.indexOf(card.UID) > -1){
+                    if (uidList.indexOf(card.UID) > -1) {
 
                         var agreedClass = 'notClicked';
                         var disagreedClass = "notClicked";
 
-                        if(card.my_count == -1) {
+                        if (card.my_count == -1) {
                             disagreedClass = "disagreed";
                         } else if (card.my_count == 1) {
                             agreedClass = "agreed";
@@ -333,17 +328,49 @@ $( window ).on( "load", function() {
 
                         var cardStatusClass = 'unhandled';
                         // When the status field is available
-                        /* if(card.status == something){
+                        /* if(card.stage == 1){
                             cardStatusClass = 'in-progress';
                         }
-                        else if(card.status == somethingElse){
-                            cardStatusClass = 'cancelled';
-                        }
-                        else if(card.status == anotherThing){
+                        else if(card.stage == 2){
                             cardStatusClass = 'closed';
+                        }
+                        else if(card.stage == 3){
+                            cardStatusClass = 'cancelled';
                         }*/
 
-                        $view.append("<div class=\"card " +  cardStatusClass + "\""  + "id=\"" + card.UID + "\"" +">\n" +
+                        var statusTextHtml = "<div class=\"status-msg-list-container\">\n" +
+                            "    <!-- for each message in the list-->\n" +
+                            "    <div class=\"status-msg-container\">\n" +
+                            "        <p class=\"status-msg-time\">\n" +
+                            "            <!-- first 16 chars in string toString().substr(0,16)-->\n" +
+                            "            2017-04-23T18:25\n" +
+                            "        </p>\n" +
+                            "        <p class=\"status-msg-text\">\n" +
+                            "            Some text right hrrr.\n" +
+                            "        </p>\n" +
+                            "    </div>\n" +
+                            "\n" +
+                            "</div>";
+
+                        // This block will create the html for the Status Messages
+                        /*if (card.stage > 0){
+                            statusTextHtml = "<div class=\"status-msg-list-container\">\n";
+                            // for each message in the list
+                            for(var message in card.status_log){
+                                statusTextHtml.push("<div class=\"status-msg-container\">\n" +
+                                    "        <p class=\"status-msg-time\">\n" +
+                                    //first 16 chars in string toString().substr(0,16)-->
+                                    message.time_stamp.toString().substr(0,16) +
+                                    "        </p>\n" +
+                                    "        <p class=\"status-msg-text\">\n" +
+                                    message.message +
+                                    "        </p>\n" +
+                                    "    </div>");
+                              statusTextHtml.push("</div>")
+                            }
+                        }*/
+
+                        $view.append("<div class=\"card " + cardStatusClass + "\"" + "id=\"" + card.UID + "\"" + ">\n" +
                             "        <p class=\"card-title \">\n" +
                             card.title +
                             "        </p>\n" +
@@ -351,13 +378,14 @@ $( window ).on( "load", function() {
                             "        <p class=\"card-content\">\n" +
                             card.text +
                             "        </p>\n" +
+                            statusTextHtml +
                             "    </div>\n" +
                             "        <div class=\"footer-container\">\n" +
                             "<div class=\"flag-container\">\n" +
                             "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +
                             "        </div>\n" +
                             "    <div class=\"date-container\">\n" +
-                            card.time_stamp.toString().substr(0,10) +
+                            card.time_stamp.toString().substr(0, 10) +
                             "    </div>\n" +
                             "\n" +
                             "        <div class=\"disagree-container\">\n" +
@@ -366,18 +394,19 @@ $( window ).on( "load", function() {
                             "        </div>\n" +
                             "        <div class=\"agree-container\">\n" +
                             "            <i class=\"fa fa-check " + agreedClass + "\" aria-hidden=\"true\"></i>\n" +
-                            "<span class=\"agree-count\">" + card.agree_count  + "</span>" +
+                            "<span class=\"agree-count\">" + card.agree_count + "</span>" +
                             "        </div>" +
                             "        </div>\n" +
                             "    </div>\n" +
                             "        </div>\n" +
                             "    </div>");
                     }
-                })});
+                })
+            });
 
     }
 
-    function getUidList(nameOfList){
+    function getUidList(nameOfList) {
         var listOfUids = []
         var myPostsListRef = database.ref(nameOfList);
 

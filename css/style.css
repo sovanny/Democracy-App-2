@@ -40,9 +40,7 @@ body{
 
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
 [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
-
     font-size: 1.5em;
-
 }
 
 .selected{
@@ -111,6 +109,12 @@ body{
     margin-bottom: 40px;
 
 }
+
+.status-msg-list-container{
+    margin: 25px;
+}
+
+
 .footer-container{
     display: block;
     position: absolute;
