@@ -116,6 +116,9 @@ $(window).on("load", function () {
                         if (childSnapshot.val().UID == cardUid) {
 
                             var old_count = childSnapshot.val().agree_count;
+                            if (old_count == 99) {
+                                $("#" + cardUid).addClass('in-progress')
+                            }
 
                             childSnapshot.ref.update({agree_count: old_count - 1});
                             childSnapshot.ref.update({my_count: 0});
@@ -328,47 +331,36 @@ $(window).on("load", function () {
 
                         var cardStatusClass = 'unhandled';
                         // When the status field is available
-                        /* if(card.stage == 1){
+                        if (card.stage == 1) {
                             cardStatusClass = 'in-progress';
                         }
-                        else if(card.stage == 2){
+                        else if (card.stage == 2) {
                             cardStatusClass = 'closed';
                         }
-                        else if(card.stage == 3){
+                        else if (card.stage == 3) {
                             cardStatusClass = 'cancelled';
-                        }*/
+                        }
 
-                        var statusTextHtml = "<div class=\"status-msg-list-container\">\n" +
-                            "    <!-- for each message in the list-->\n" +
-                            "    <div class=\"status-msg-container\">\n" +
-                            "        <p class=\"status-msg-time\">\n" +
-                            "            <!-- first 16 chars in string toString().substr(0,16)-->\n" +
-                            "            2017-04-23T18:25\n" +
-                            "        </p>\n" +
-                            "        <p class=\"status-msg-text\">\n" +
-                            "            Some text right hrrr.\n" +
-                            "        </p>\n" +
-                            "    </div>\n" +
-                            "\n" +
-                            "</div>";
+                        var statusTextHtml = "";
 
                         // This block will create the html for the Status Messages
-                        /*if (card.stage > 0){
+                        if (card.stage > 0) {
                             statusTextHtml = "<div class=\"status-msg-list-container\">\n";
                             // for each message in the list
-                            for(var message in card.status_log){
-                                statusTextHtml.push("<div class=\"status-msg-container\">\n" +
+                            for (var message in card.status_log) {
+                                console.log(card.status_log[message]);
+                                statusTextHtml += "<div class=\"status-msg-container\">\n" +
                                     "        <p class=\"status-msg-time\">\n" +
                                     //first 16 chars in string toString().substr(0,16)-->
-                                    message.time_stamp.toString().substr(0,16) +
+                                    card.status_log[message].time_stamp.toString().substr(0, 16) +
                                     "        </p>\n" +
                                     "        <p class=\"status-msg-text\">\n" +
-                                    message.message +
+                                    card.status_log[message].message +
                                     "        </p>\n" +
-                                    "    </div>");
-                              statusTextHtml.push("</div>")
+                                    "    </div>";
                             }
-                        }*/
+                            statusTextHtml += "</div>";
+                        }
 
                         $view.append("<div class=\"card " + cardStatusClass + "\"" + "id=\"" + card.UID + "\"" + ">\n" +
                             "        <p class=\"card-title \">\n" +
