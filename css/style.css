@@ -40,9 +40,7 @@ body{
 
 [class^="flaticon-"]:before, [class*=" flaticon-"]:before,
 [class^="flaticon-"]:after, [class*=" flaticon-"]:after {
-
     font-size: 1.5em;
-
 }
 
 .selected{
@@ -68,11 +66,11 @@ body{
 
 .in-progress {
     /* should be changed to /data/in-progress.png when hosted on on the web*/
-    background-image: url("/Democracy-App-2/data/in-progress2.png");
+    background-image: url("/Democracy-App-2/data/in_progress2.png");
     background-size: cover;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: center top;
 }
 
 .cancelled{
@@ -81,7 +79,7 @@ body{
     background-size: cover;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center ;
+    background-position: center top;
 }
 
 .closed{
@@ -90,7 +88,7 @@ body{
     background-size: cover;
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center ;
+    background-position: center top;
 
 }
 
@@ -111,6 +109,12 @@ body{
     margin-bottom: 40px;
 
 }
+
+.status-msg-list-container{
+    margin: 25px;
+}
+
+
 .footer-container{
     display: block;
     position: absolute;
