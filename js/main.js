@@ -247,10 +247,12 @@ $(window).on("load", function () {
     function agree($button) {
         const agreedClass = 'agreed';
         const notClickedClass = 'notClicked';
+        // if this is an "anti-click"
         if ($button.hasClass(agreedClass)) {
             $button.removeClass(agreedClass);
             $button.addClass(notClickedClass);
             var cardUid = parseInt($button.closest("div .card").prop("id"));
+            // update agree_count
             database.ref('cards').once("value")
                 .then(function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
@@ -267,31 +269,38 @@ $(window).on("load", function () {
                         }
                     })
                 });
+            //////////////////////////////////////// replace-start
+            // database.ref('my_votes_uids').once("value")
+            //     .then(function (snapshot) {
+            //         snapshot.forEach(function (childSnapshot) {
+            //             if (childSnapshot.val().UID == cardUid) {
+            //                 childSnapshot.ref.remove();
+            //
+            //             }
+            //         })
+            //     });
+            remove_my_vote_uid(cardUid)
+            //////////////////////////////////////// replace-end
 
-            database.ref('my_votes_uids').once("value")
-                .then(function (snapshot) {
-                    snapshot.forEach(function (childSnapshot) {
-                        if (childSnapshot.val().UID == cardUid) {
-                            childSnapshot.ref.remove();
-
-                        }
-                    })
-                });
-            database.ref('cards').once("value")
-                .then(function (snapshot) {
-                    snapshot.forEach(function (childSnapshot) {
-                        if (childSnapshot.val().UID == cardUid) {
-                            database.ref('feed_uids').push({"UID": childSnapshot.val().UID});
-
-                        }
-                    })
-                });
+            //////////////////////////////////////// replace-start
+            // database.ref('cards').once("value")
+            //     .then(function (snapshot) {
+            //         snapshot.forEach(function (childSnapshot) {
+            //             if (childSnapshot.val().UID == cardUid) {
+            //                 database.ref('feed_uids').push({"UID": childSnapshot.val().UID});
+            //
+            //             }
+            //         })
+            //     });
+            add_feed_uid(cardUid)
+            //////////////////////////////////////// replace-end
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(agreedClass);
 
 
             var cardUid = parseInt($button.closest("div .card").prop("id"));
+            // update agree_count
             database.ref('cards').once("value")
                 .then(function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
@@ -305,18 +314,23 @@ $(window).on("load", function () {
                         }
                     })
                 });
+            //////////////////////////////////////// replace-start
+            // database.ref('feed_uids').once("value")
+            //     .then(function (snapshot) {
+            //         snapshot.forEach(function (childSnapshot) {
+            //             if (childSnapshot.val().UID == cardUid) {
+            //                 childSnapshot.ref.remove();
+            //
+            //             }
+            //         })
+            //     });
+            remove_feed_uid(cardUid)
+            //////////////////////////////////////// replace-end
 
-            database.ref('feed_uids').once("value")
-                .then(function (snapshot) {
-                    snapshot.forEach(function (childSnapshot) {
-                        if (childSnapshot.val().UID == cardUid) {
-                            childSnapshot.ref.remove();
-
-                        }
-                    })
-                });
-
-            database.ref('my_votes_uids').push({"UID": cardUid});
+            //////////////////////////////////////// replace-start
+            // database.ref('my_votes_uids').push({"UID": cardUid});
+            add_my_vote_uid(cardUid)
+            //////////////////////////////////////// replace-end
         }
 
     }
@@ -324,10 +338,12 @@ $(window).on("load", function () {
     function disAgree($button) {
         const disagreedClass = 'disagreed';
         const notClickedClass = 'notClicked';
+        // if this is "anti-click"
         if ($button.hasClass(disagreedClass)) {
             $button.removeClass(disagreedClass);
             $button.addClass(notClickedClass);
             var cardUid = parseInt($button.closest("div .card").prop("id"));
+            // update disagree_count
             database.ref('cards').once("value")
                 .then(function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
@@ -341,31 +357,38 @@ $(window).on("load", function () {
                         }
                     })
                 });
+            //////////////////////////////////////// replace-start
+            // database.ref('my_votes_uids').once("value")
+            //     .then(function (snapshot) {
+            //         snapshot.forEach(function (childSnapshot) {
+            //             if (childSnapshot.val().UID == cardUid) {
+            //                 childSnapshot.ref.remove();
+            //
+            //             }
+            //         })
+            //     });
+            remove_my_vote_uid(cardUid)
+            //////////////////////////////////////// replace-end
 
-            database.ref('my_votes_uids').once("value")
-                .then(function (snapshot) {
-                    snapshot.forEach(function (childSnapshot) {
-                        if (childSnapshot.val().UID == cardUid) {
-                            childSnapshot.ref.remove();
-
-                        }
-                    })
-                });
-            database.ref('cards').once("value")
-                .then(function (snapshot) {
-                    snapshot.forEach(function (childSnapshot) {
-                        if (childSnapshot.val().UID == cardUid) {
-                            database.ref('feed_uids').push({"UID": childSnapshot.val().UID});
-
-                        }
-                    })
-                });
+            //////////////////////////////////////// replace-start
+            // database.ref('cards').once("value")
+            //     .then(function (snapshot) {
+            //         snapshot.forEach(function (childSnapshot) {
+            //             if (childSnapshot.val().UID == cardUid) {
+            //                 database.ref('feed_uids').push({"UID": childSnapshot.val().UID});
+            //
+            //             }
+            //         })
+            //     });
+            add_feed_uid(cardUid)
+            //////////////////////////////////////// replace-end
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(disagreedClass);
 
 
             var cardUid = parseInt($button.closest("div .card").prop("id"));
+            // update disagree_count
             database.ref('cards').once("value")
                 .then(function (snapshot) {
                     snapshot.forEach(function (childSnapshot) {
@@ -379,18 +402,23 @@ $(window).on("load", function () {
                         }
                     })
                 });
+            //////////////////////////////////////// replace-start
+            // database.ref('feed_uids').once("value")
+            //     .then(function (snapshot) {
+            //         snapshot.forEach(function (childSnapshot) {
+            //             if (childSnapshot.val().UID == cardUid) {
+            //                 childSnapshot.ref.remove();
+            //
+            //             }
+            //         })
+            //     });
+            remove_feed_uid(cardUid)
+            //////////////////////////////////////// replace-start
 
-            database.ref('feed_uids').once("value")
-                .then(function (snapshot) {
-                    snapshot.forEach(function (childSnapshot) {
-                        if (childSnapshot.val().UID == cardUid) {
-                            childSnapshot.ref.remove();
-
-                        }
-                    })
-                });
-
-            database.ref('my_votes_uids').push({"UID": cardUid});
+            //////////////////////////////////////// replace-start
+            // database.ref('my_votes_uids').push({"UID": cardUid});
+            add_my_vote_uid(cardUid)
+            //////////////////////////////////////// replace-start
         }
 
     }
