@@ -38,6 +38,11 @@ body{
 
 }
 
+
+.flaticon-tabs{
+   width: ;
+}
+
 .selected{
     color: #1B9AF7;
 }
@@ -48,22 +53,68 @@ body{
     text-align: left;
     background-color: #FFFFFF;
     margin: 2vw 3vw 2vw 3vw;
-    height: 40vw;
+    min-height: 40vw;
     width: 92vw;
     font-family: 'Open Sans', sans-serif;
+    padding-bottom: 55px;
 }
 
-.card p{
+.unhandled{
+
+}
+
+.in-progress {
+    /* should be changed to /data/in-progress.png when hosted on on the web*/
+    background-image: url("/Democracy-App-2/data/in-progress.png");
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cancelled{
+    /* should be changed to /data/in-progress.png when hosted on on the web*/
+    background-image: url("/Democracy-App-2/data/Cancelled-01.png");
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center ;
+}
+
+.closed{
+    /* should be changed to /data/in-progress.png when hosted on on the web*/
+    background-image: url("/Democracy-App-2/data/Closed-01.png");
+    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center ;
+
+}
+
+.card-title{
     font-size: 3rem;
-    color: #5A5A5A;
     margin: 25px;
+    color: #5A5A5A;
+
+}
+.expandable-content{
+    height: 100px;
+    background: gray;
+}
+.card-content{
+    color: black;
+    font-size: 1rem;
+    margin: 25px;
+    margin-bottom: 40px;
+
 }
 .footer-container{
+    display: block;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 20%;
+    height: 80px;
 
 }
 
@@ -86,7 +137,7 @@ body{
     float: left;
     font-size: 1.5rem;
     margin-left: 120px;
-    bottom: 25px;
+    bottom: 30px;
     position: absolute;
     color: #5F5F5F;
 }
