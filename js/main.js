@@ -1,11 +1,18 @@
-// Initialize Firebase
 var config = {
     apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
+<<<<<<< HEAD
+    authDomain: "democracy-app-kaist.firebaseapp.com",
+    databaseURL: "https://democracy-app-2.firebaseio.com/",
+    projectId: "democracy-app-kaist",
+    storageBucket: "democracy-app-kaist.appspot.com",
+    messagingSenderId: "934147540753"
+=======
     authDomain: "democracy-app-2.firebaseapp.com",
     databaseURL: "https://democracy-app-2.firebaseio.com",
     projectId: "democracy-app-2",
     storageBucket: "democracy-app-2.appspot.com",
     messagingSenderId: "895134222441"
+>>>>>>> origin/master
 };
 firebase.initializeApp(config);
 
