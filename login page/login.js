@@ -1,8 +1,12 @@
 //firebase();
 var config = {
     apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
+    authDomain: "democracy-app-2.firebaseapp.com",
     databaseURL: "https://democracy-app-2.firebaseio.com",
-}
+    projectId: "democracy-app-2",
+    storageBucket: "democracy-app-2.appspot.com",
+    messagingSenderId: "895134222441"
+};
 
 
 firebase.initializeApp(config);
@@ -12,7 +16,7 @@ var userRef = database.ref("users")
 var cardRef = database.ref("cards")
 
 
-var currentUser = 0
+//var currentUser = 0
 
 $(document).ready(function(){
     $("#loginBtn").click(function(){
@@ -26,8 +30,17 @@ $(document).ready(function(){
                        // currentUser = id;
                         // go to feed
                         // console.log(currentUser) // = 20150950
-                        database.ref("currentUserID").push({currentUser: id});
-                        window.location.href = "./index2.html";
+                        //database.ref("currentUserID").push({currentUser: id});
+                        database.ref('currentUserID').once("value")
+                            .then(function (snapshot) {
+                                snapshot.forEach(function (childSnapshot) {
+                                    childSnapshot.ref.update({currentUser: id})
+                                    //currentUser = id
+                                    localStorage.setItem("currentUser",id);
+                                    console.log(currentUser) // = 20150950
+                                    window.location.href = "./index2.html";
+                                })
+                            })
                     } else {
                         console.log('failed');
                         //console.log(psw);

@@ -1,48 +1,68 @@
 // Initialize Firebase
-var config = {
-    apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
-    authDomain: "democracy-app-2.firebaseapp.com",
-    databaseURL: "https://democracy-app-2.firebaseio.com",
-    projectId: "democracy-app-2",
-    storageBucket: "democracy-app-2.appspot.com",
-    messagingSenderId: "895134222441"
-};
-firebase.initializeApp(config);
+// var config = {
+//     apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
+//     authDomain: "democracy-app-2.firebaseapp.com",
+//     databaseURL: "https://democracy-app-2.firebaseio.com",
+//     projectId: "democracy-app-2",
+//     storageBucket: "democracy-app-2.appspot.com",
+//     messagingSenderId: "895134222441"
+// };
+// firebase.initializeApp(config);
 
 // Get a reference to the database service
-var database = firebase.database();
+// var database = firebase.database();
 
-// get current user. -> user_id paramater might not be needed in the add_feed_uid function
-// need to make sure this is done before we proceed
-//var currentUser = 0
-promise = database.ref("currentUserID").once("value")
-    .then(function (snapshot) {
-            currentUser = snapshot.val();
-            return currentUser;
-            // console.log(snapshot.val()) // = 20150950
-        })
 
-promise.then(function(result) {
-    // we can go the stupid way, and put the rest of the code inside of here.
-    currentUser = result;
-    console.log(currentUser);
-
-    console.log(currentUser)  // this varialbe is local. We can't use it outside
-});
-
+userRef = database.ref("users")
+// currentUserArray = []
+// database.ref('currentUserID').once("value")
+//     .then(function (snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             currentUserArray.push(childSnapshot.val().currentUser)
+//             //console.log(currentUserArray)
+//         })
+//
+//     })
 currentUser = 20150950
+currentUser = localStorage.getItem("currentUser")
+//currentUser = database.ref('currentUserID').child(0);
+//console.log(database.ref('currentUserID').val())
+// temp = []
+// database.ref('temp').once("value")
+//     .then (function (snapshot) {
+//         temp.push(snapshot.val())
+//     })
+//
+// console.log(temp)
+//currentUser = currentUserArray[0]
+console.log(currentUser)
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////    functions to edit 'feed_uids', 'my_votes_uids' and 'my_posts_uids' fields of 'user' cards: start       ////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// add users. Should be commented.
-userRef = database.ref("users")
+// add example users. Should be commented.
 // userRef.push({
 //     ID: 20150950,
 //     password: 'olzhas',
-//     feed_uids: [],
-//     my_posts_uids: [],
-//     my_votes_uids: []
+//     feed_uids: [-1],
+//     my_posts_uids: [-1],
+//     my_votes_uids: [-1]
+// });
+// userRef.push({
+//     ID: 20170001,
+//     password: 'simon',
+//     feed_uids: [-1],
+//     my_posts_uids: [-1],
+//     my_votes_uids: [-1]
+// });
+// userRef.push({
+//     ID: 2017002,
+//     password: 'sanni',
+//     feed_uids: [-1],
+//     my_posts_uids: [-1],
+//     my_votes_uids: [-1]
 // });
 
 // add a card_id to feed_uids of a given user
@@ -51,7 +71,6 @@ function add_feed_uid(feed_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                console.log(childSnapshot.val().ID)
                 if (childSnapshot.val().ID == currentUser) {
                     feed_uids_new = childSnapshot.val().feed_uids
                     feed_uids_new.push(feed_uid)
@@ -66,7 +85,6 @@ function remove_feed_uid(feed_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                console.log(childSnapshot.val().ID)
                 if (childSnapshot.val().ID == currentUser) {
                     feed_uids_new = childSnapshot.val().feed_uids
                     // checks if feed_uid is in feed_uids, and if it is, - remove it
@@ -85,7 +103,6 @@ function add_my_post_uid(my_post_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                console.log(childSnapshot.val().ID)
                 if (childSnapshot.val().ID == currentUser) {
                     my_posts_uids_new = childSnapshot.val().my_posts_uids
                     my_posts_uids_new.push(my_post_uid)
@@ -100,7 +117,6 @@ function remove_my_post_uid(my_post_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                console.log(childSnapshot.val().ID)
                 if (childSnapshot.val().ID == currentUser) {
                     my_posts_uids_new = childSnapshot.val().my_posts_uids
                     // checks if my_post_uid is in my_posts_uids, and if it is, - remove it
@@ -118,7 +134,6 @@ function add_my_vote_uid(my_vote_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                console.log(childSnapshot.val().ID)
                 if (childSnapshot.val().ID == currentUser) {
                     my_votes_uids_new = childSnapshot.val().my_votes_uids
                     my_votes_uids_new.push(my_vote_uid)
@@ -133,7 +148,6 @@ function remove_my_vote_uid(my_vote_uid) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                console.log(childSnapshot.val().ID)
                 if (childSnapshot.val().ID == currentUser) {
                     my_votes_uids_new = childSnapshot.val().my_votes_uids
                     // checks if my_vote_uid is in my_votes_uids, and if it is, - remove it
