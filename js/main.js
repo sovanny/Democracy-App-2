@@ -1,40 +1,5 @@
-// Initialize Firebase
-// var config = {
-//     apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
-//     authDomain: "democracy-app-2.firebaseapp.com",
-//     databaseURL: "https://democracy-app-2.firebaseio.com",
-//     projectId: "democracy-app-2",
-//     storageBucket: "democracy-app-2.appspot.com",
-//     messagingSenderId: "895134222441"
-// };
-// firebase.initializeApp(config);
-
-// Get a reference to the database service
-// var database = firebase.database();
-
-
 userRef = database.ref("users")
-// currentUserArray = []
-// database.ref('currentUserID').once("value")
-//     .then(function (snapshot) {
-//         snapshot.forEach(function (childSnapshot) {
-//             currentUserArray.push(childSnapshot.val().currentUser)
-//             //console.log(currentUserArray)
-//         })
-//
-//     })
-currentUser = 20150950
 currentUser = localStorage.getItem("currentUser")
-//currentUser = database.ref('currentUserID').child(0);
-//console.log(database.ref('currentUserID').val())
-// temp = []
-// database.ref('temp').once("value")
-//     .then (function (snapshot) {
-//         temp.push(snapshot.val())
-//     })
-//
-// console.log(temp)
-//currentUser = currentUserArray[0]
 console.log(currentUser)
 
 
@@ -283,31 +248,8 @@ $(window).on("load", function () {
                         }
                     })
                 });
-            //////////////////////////////////////// replace-start
-            // database.ref('my_votes_uids').once("value")
-            //     .then(function (snapshot) {
-            //         snapshot.forEach(function (childSnapshot) {
-            //             if (childSnapshot.val().UID == cardUid) {
-            //                 childSnapshot.ref.remove();
-            //
-            //             }
-            //         })
-            //     });
             remove_my_vote_uid(cardUid)
-            //////////////////////////////////////// replace-end
-
-            //////////////////////////////////////// replace-start
-            // database.ref('cards').once("value")
-            //     .then(function (snapshot) {
-            //         snapshot.forEach(function (childSnapshot) {
-            //             if (childSnapshot.val().UID == cardUid) {
-            //                 database.ref('feed_uids').push({"UID": childSnapshot.val().UID});
-            //
-            //             }
-            //         })
-            //     });
             add_feed_uid(cardUid)
-            //////////////////////////////////////// replace-end
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(agreedClass);
@@ -328,23 +270,8 @@ $(window).on("load", function () {
                         }
                     })
                 });
-            //////////////////////////////////////// replace-start
-            // database.ref('feed_uids').once("value")
-            //     .then(function (snapshot) {
-            //         snapshot.forEach(function (childSnapshot) {
-            //             if (childSnapshot.val().UID == cardUid) {
-            //                 childSnapshot.ref.remove();
-            //
-            //             }
-            //         })
-            //     });
             remove_feed_uid(cardUid)
-            //////////////////////////////////////// replace-end
-
-            //////////////////////////////////////// replace-start
-            // database.ref('my_votes_uids').push({"UID": cardUid});
             add_my_vote_uid(cardUid)
-            //////////////////////////////////////// replace-end
         }
 
     }
@@ -371,31 +298,8 @@ $(window).on("load", function () {
                         }
                     })
                 });
-            //////////////////////////////////////// replace-start
-            // database.ref('my_votes_uids').once("value")
-            //     .then(function (snapshot) {
-            //         snapshot.forEach(function (childSnapshot) {
-            //             if (childSnapshot.val().UID == cardUid) {
-            //                 childSnapshot.ref.remove();
-            //
-            //             }
-            //         })
-            //     });
             remove_my_vote_uid(cardUid)
-            //////////////////////////////////////// replace-end
-
-            //////////////////////////////////////// replace-start
-            // database.ref('cards').once("value")
-            //     .then(function (snapshot) {
-            //         snapshot.forEach(function (childSnapshot) {
-            //             if (childSnapshot.val().UID == cardUid) {
-            //                 database.ref('feed_uids').push({"UID": childSnapshot.val().UID});
-            //
-            //             }
-            //         })
-            //     });
             add_feed_uid(cardUid)
-            //////////////////////////////////////// replace-end
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(disagreedClass);
@@ -416,23 +320,8 @@ $(window).on("load", function () {
                         }
                     })
                 });
-            //////////////////////////////////////// replace-start
-            // database.ref('feed_uids').once("value")
-            //     .then(function (snapshot) {
-            //         snapshot.forEach(function (childSnapshot) {
-            //             if (childSnapshot.val().UID == cardUid) {
-            //                 childSnapshot.ref.remove();
-            //
-            //             }
-            //         })
-            //     });
             remove_feed_uid(cardUid)
-            //////////////////////////////////////// replace-start
-
-            //////////////////////////////////////// replace-start
-            // database.ref('my_votes_uids').push({"UID": cardUid});
             add_my_vote_uid(cardUid)
-            //////////////////////////////////////// replace-start
         }
 
     }
@@ -613,19 +502,7 @@ $(window).on("load", function () {
         //console.log(listOfUids)
         return listOfUids;
     }
-    //
-    // function getUidList(nameOfList) {
-    //     var listOfUids = []
-    //     var myPostsListRef = database.ref(nameOfList);
-    //
-    //     myPostsListRef.once("value")
-    //         .then(function (snapshot) {
-    //             snapshot.forEach(function (childSnapshot) {
-    //                 listOfUids.push(childSnapshot.val().UID)
-    //             })
-    //         })
-    //     return listOfUids;
-    // }
+
 });
 
 
