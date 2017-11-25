@@ -219,9 +219,6 @@ $(window).on("load", function () {
                         if (childSnapshot.val().UID == cardUid) {
 
                             var old_count = childSnapshot.val().agree_count;
-                            if (old_count == 99) {
-                                $("#" + cardUid).addClass('in-progress')
-                            }
 
                             childSnapshot.ref.update({agree_count: old_count - 1});
                         }
@@ -242,7 +239,9 @@ $(window).on("load", function () {
                         if (childSnapshot.val().UID == cardUid) {
 
                             var old_count = childSnapshot.val().agree_count;
-
+                            if (old_count == 99) {
+                                $("#" + cardUid).addClass('in-progress')
+                            }
                             childSnapshot.ref.update({agree_count: old_count + 1});
                         }
                     })
