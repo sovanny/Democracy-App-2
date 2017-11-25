@@ -7,29 +7,6 @@ console.log(currentUser)
 ///////    functions to edit 'feed_uids', 'my_votes_uids' and 'my_posts_uids' fields of 'user' cards: start       ////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// add example users. Should be commented.
-// userRef.push({
-//     ID: 20150950,
-//     password: 'olzhas',
-//     feed_uids: [-1],
-//     my_posts_uids: [-1],
-//     my_votes_uids: [-1]
-// });
-// userRef.push({
-//     ID: 20170001,
-//     password: 'simon',
-//     feed_uids: [-1],
-//     my_posts_uids: [-1],
-//     my_votes_uids: [-1]
-// });
-// userRef.push({
-//     ID: 2017002,
-//     password: 'sanni',
-//     feed_uids: [-1],
-//     my_posts_uids: [-1],
-//     my_votes_uids: [-1]
-// });
-
 // add a card_id to feed_uids of a given user
 // add_feed_uid(7)
 function add_feed_uid(feed_uid) {
@@ -94,17 +71,18 @@ function remove_my_post_uid(my_post_uid) {
 }
 
 // add a card_id to my_votes_uids of a given user
-// add_my_vote_uid(7)
-function add_my_vote_uid(my_vote_uid) {
+// add_my_vote_uid(7, 1)  - agreed on card #7
+function add_my_vote_uid(my_vote_uid, vote) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 if (childSnapshot.val().ID == currentUser) {
                     my_votes_uids_new = childSnapshot.val().my_votes_uids
-                    my_votes_uids_new.push(my_vote_uid)
+                    my_votes_uids_new.push({uid: my_vote_uid, vote: vote})
                     childSnapshot.ref.update({my_votes_uids: my_votes_uids_new});
                 }
-            })})
+            })
+        })
 }
 
 // remove a card_id from my_votes_uids of a given user
@@ -116,12 +94,15 @@ function remove_my_vote_uid(my_vote_uid) {
                 if (childSnapshot.val().ID == currentUser) {
                     my_votes_uids_new = childSnapshot.val().my_votes_uids
                     // checks if my_vote_uid is in my_votes_uids, and if it is, - remove it
-                    if (my_votes_uids_new.indexOf(my_vote_uid) > -1) {
-                        my_votes_uids_new.splice(my_votes_uids_new.indexOf(my_vote_uid), 1)
+                    for (i = 0; i < my_votes_uids_new.length; i++) {
+                        if (my_vote_uid == my_votes_uids_new[i].uid) {
+                            my_votes_uids_new.splice(i, 1)
+                            childSnapshot.ref.update({my_votes_uids: my_votes_uids_new})
+                        }
                     }
-                    childSnapshot.ref.update({my_votes_uids: my_votes_uids_new});
                 }
-            })})
+            })
+        })
 }
 //add_my_vote_uid(4)
 //remove_my_vote_uid(4)
@@ -148,7 +129,7 @@ $(window).on("load", function () {
         selectTab($tabs, $($tabs[0]))
 
         var listOfUids = getUidList('feed_uids');
-        loadCardContent($('#feed-container'), listOfUids);
+        loadCardContent($('#feed-container'), listOfUids, 'feed');
 
 
         //When clicking on the title text
@@ -243,8 +224,6 @@ $(window).on("load", function () {
                             }
 
                             childSnapshot.ref.update({agree_count: old_count - 1});
-                            childSnapshot.ref.update({my_count: 0});
-
                         }
                     })
                 });
@@ -265,13 +244,11 @@ $(window).on("load", function () {
                             var old_count = childSnapshot.val().agree_count;
 
                             childSnapshot.ref.update({agree_count: old_count + 1});
-                            childSnapshot.ref.update({my_count: 1});
-
                         }
                     })
                 });
             remove_feed_uid(cardUid)
-            add_my_vote_uid(cardUid)
+            add_my_vote_uid(cardUid, -1)
         }
 
     }
@@ -293,8 +270,6 @@ $(window).on("load", function () {
                             var old_count = childSnapshot.val().disagree_count;
 
                             childSnapshot.ref.update({disagree_count: old_count - 1});
-                            childSnapshot.ref.update({my_count: 0});
-
                         }
                     })
                 });
@@ -315,13 +290,11 @@ $(window).on("load", function () {
                             var old_count = childSnapshot.val().disagree_count;
 
                             childSnapshot.ref.update({disagree_count: old_count + 1});
-                            childSnapshot.ref.update({my_count: -1});
-
                         }
                     })
                 });
             remove_feed_uid(cardUid)
-            add_my_vote_uid(cardUid)
+            add_my_vote_uid(cardUid, -2)
         }
 
     }
@@ -342,16 +315,17 @@ $(window).on("load", function () {
         //Check the ID of the tab clicked
         if ($tab.hasClass('home-feed-view')) {
             var listOfUids = getUidList('feed_uids');
-            loadCardContent($view, listOfUids);
+            loadCardContent($view, listOfUids, 'feed');
         }
         else if ($tab.hasClass('my-votes-view')) {
             var listOfUids = getUidList('my_votes_uids');
-            loadCardContent($view, listOfUids);
+            console.log(listOfUids) // - correct, but not sure if it's loaded fast enough
+            loadCardContent($view, listOfUids, 'votes');
         }
         else if ($tab.hasClass('my-posts-view')) {
 
             var listOfUids = getUidList('my_posts_uids');
-            loadCardContent($view, listOfUids);
+            loadCardContent($view, listOfUids, 'my_posts');
         }
         else if ($tab.hasClass('new-post-view')) {
             loadHtml($view, 'new post/new');
@@ -372,20 +346,15 @@ $(window).on("load", function () {
     }
 
     // This is the actual function that we can use
-    function loadCardContent($view, uidList) {
+    function loadCardContent($view, uidList, list_type) {
 
         // empty the current content
         $view.empty();
-
         var cardContent = database.ref('cards');
+        console.log(list_type)
 
-
-        /* Checks for newly added cards
-        cardContent.on('child_added', function (snapshot) {
-            var data = snapshot.val();
-        });*/
-
-
+        // display cards
+        //console.log(uidList) // wrong == feed_uids
         cardContent.once("value")
             .then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
@@ -395,12 +364,17 @@ $(window).on("load", function () {
                         var agreedClass = 'notClicked';
                         var disagreedClass = "notClicked";
 
-                        if (card.my_count == -1) {
-                            disagreedClass = "disagreed";
-                        } else if (card.my_count == 1) {
-                            agreedClass = "agreed";
+                        /////////////////////////////////// only this is specific to votes - start
+                        if (list_type == 'votes') {
+                            if (uidList[uidList.indexOf(card.UID) + 1] == -2) {
+                                disagreedClass = "disagreed";
+                            } else if (uidList[uidList.indexOf(card.UID) + 1] == -1) {
+                                agreedClass = "agreed";
+                            }
+                        } else if (list_type == 'my_posts') {
+                            agreedClass = "agreed"
                         }
-
+                        /////////////////////////////////// only this is specific to votes - end
                         var cardStatusClass = 'unhandled';
                         // When the status field is available
                         if (card.stage == 1) {
@@ -467,8 +441,9 @@ $(window).on("load", function () {
                     }
                 })
             });
-
     }
+
+
 
     function getUidList(nameOfList) {
         var listOfUids = []
@@ -491,7 +466,9 @@ $(window).on("load", function () {
                         } else if (nameOfList == 'my_votes_uids') {
                             temp = childSnapshot.val().my_votes_uids
                             for (i = 0; i < temp.length; i++) {
-                                listOfUids.push(temp[i])
+                                // lisOfUids looks different for 'my_votes_uids'. It has twice the length
+                                listOfUids.push(temp[i].uid)
+                                listOfUids.push(temp[i].vote)
                             }
                         }
 
@@ -506,5 +483,27 @@ $(window).on("load", function () {
 });
 
 
-
+//add example users. Should be commented.
+// -2 == disagree; -1 == agree
+// userRef.push({
+//     ID: 20150950,
+//     password: 'olzhas',
+//     feed_uids: [3, 4, 5, 6, 7],
+//     my_posts_uids: [-1],
+//     my_votes_uids: [{uid: 1, vote: -1}, {uid: 2, vote: -2}]
+// });
+// userRef.push({
+//     ID: 20170001,
+//     password: 'simon',
+//     feed_uids: [1, 4, 5, 6, 7],
+//     my_posts_uids: [-1],
+//     my_votes_uids: [{uid: 2, vote: -1}, {uid: 3, vote: -2}]
+// });
+// userRef.push({
+//     ID: 20170002,
+//     password: 'sanni',
+//     feed_uids: [1, 2, 3, 6, 7],
+//     my_posts_uids: [-1],
+//     my_votes_uids: [{uid: 4, vote: -2}, {uid: 5, vote: -1}]
+// });
 
