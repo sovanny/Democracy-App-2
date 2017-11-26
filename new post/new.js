@@ -38,20 +38,22 @@ $(document).ready(function(){
         }
         cardRef.push({
             UID: next_uid,
-            my_count: 1,
             title: title,
             text: details,
             agree_count: 0,
             disagree_count: 0,
             time_stamp: date,
+            stage: 0,
             media_url: url,
             flag_status: "noflag",
         });
 
         // also add this UIDs to my_posts
-        myPostRef.push({
-            UID: next_uid,
-        });
+        add_my_post_uid(next_uid)
+
+        // add the post to everyone's feed
+        add_new_post_to_feed(next_uid)
+
         // don't add it to my_votes
 
         next_uidRef.once("value")
@@ -83,93 +85,162 @@ $(document).ready(function(){
 
 });
 
+
+// add a post to everyone's feed
+function add_new_post_to_feed(uid) {
+    //users = get_all_user_ids()
+    // decided to have a fixed list of ids instead of using get_all_user_ids() due to bugs
+    users = [20150950, 20176472, 20176478]
+    for (i = 0; i < users.length; i++) {
+        add_feed_uid(uid, users[i])
+    }
+}
+
+// function get_all_user_ids() {
+//     user_ids = []
+//     database.ref('users').once("value")
+//         .then(function (snapshot) {
+//             snapshot.forEach(function (childSnapshot) {
+//                 user_ids.push(childSnapshot.val().ID)
+//             })
+//         })
+//     return user_ids
+// }
 function selectTab($tabs, $tab) {
     const selectedClass = 'selected';
     $tabs.removeClass(selectedClass);
     $tab.addClass(selectedClass);
 }
 
-function getUidList(nameOfList){
-    var listOfUids = []
-    var myPostsListRef = database.ref(nameOfList);
-
-    myPostsListRef.once("value")
-        .then(function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                console.log(childSnapshot.val().UID)
-                listOfUids.push(childSnapshot.val().UID)
-            })
-        })
-    return listOfUids;
-}
-
-// // This is the actual function that we can use
-
-function loadCardContent($view, uidList) {
+// This is the actual function that we can use
+function loadCardContent($view, uidList, list_type) {
 
     // empty the current content
     $view.empty();
-
     var cardContent = database.ref('cards');
-    console.log(cardContent);
-
-    /* Checks for newly added cards
-    cardContent.on('child_added', function (snapshot) {
-        var data = snapshot.val();
-        console.log(data)
-        console.log('jag kör')
-
-    });*/
-
-
+    // display cards
+    //console.log(uidList) // wrong == feed_uids
     cardContent.once("value")
-        .then(function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
+        .then(function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
                 card = childSnapshot.val()
-                if (uidList.indexOf(card.UID) > -1){
-                    $view.append("<div class=\"card\"" + "id=\"" + card.UID + "\"" +">\n" +
-                        "        <p class=\"card-title\">\n" +
+                if (uidList.indexOf(card.UID) > -1) {
+
+                    var agreedClass = 'notClicked';
+                    var disagreedClass = "notClicked";
+
+                    /////////////////////////////////// only this is specific to votes - start
+                    if (list_type == 'votes') {
+                        if (uidList[uidList.indexOf(card.UID) + 1] == -2) {
+                            disagreedClass = "disagreed";
+                        } else if (uidList[uidList.indexOf(card.UID) + 1] == -1) {
+                            agreedClass = "agreed";
+                        }
+                    } else if (list_type == 'my_posts') {
+                        agreedClass = "agreed"
+                    }
+                    /////////////////////////////////// only this is specific to votes - end
+                    var cardStatusClass = 'unhandled';
+                    // When the status field is available
+                    if (card.stage == 1) {
+                        cardStatusClass = 'in-progress';
+                    }
+                    else if (card.stage == 2) {
+                        cardStatusClass = 'closed';
+                    }
+                    else if (card.stage == 3) {
+                        cardStatusClass = 'cancelled';
+                    }
+
+                    var statusTextHtml = "";
+
+                    // This block will create the html for the Status Messages
+                    if (card.stage > 0) {
+                        statusTextHtml = "<div class=\"status-msg-list-container\">\n";
+                        // for each message in the list
+                        for (var message in card.status_log) {
+                            console.log(card.status_log[message]);
+                            statusTextHtml += "<div class=\"status-msg-container\">\n" +
+                                "        <p class=\"status-msg-time\">\n" +
+                                //first 16 chars in string toString().substr(0,16)-->
+                                card.status_log[message].time_stamp.toString().substr(0, 16) +
+                                "        </p>\n" +
+                                "        <p class=\"status-msg-text\">\n" +
+                                card.status_log[message].message +
+                                "        </p>\n" +
+                                "    </div>";
+                        }
+                        statusTextHtml += "</div>";
+                    }
+
+                    $view.append("<div class=\"card " + cardStatusClass + "\"" + "id=\"" + card.UID + "\"" + ">\n" +
+                        "        <p class=\"card-title \">\n" +
                         card.title +
                         "        </p>\n" +
-                        //"        <p class=\"card-content\">\n" +
-                        //card.text +
-                        //"        </p>\n" +
+                        "<div id=\"expandable-content\" style=\"display: none;\">\n" +
+                        "        <p class=\"card-content\">\n" +
+                        card.text +
+                        "        </p>\n" +
+                        statusTextHtml +
+                        "    </div>\n" +
                         "        <div class=\"footer-container\">\n" +
                         "<div class=\"flag-container\">\n" +
-                        "            <i class=\"fa fa-flag notClicked\" aria-hidden=\"true\"></i>\n" +
+                        "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +
                         "        </div>\n" +
                         "    <div class=\"date-container\">\n" +
-                        "        13 nov '17\n" +
+                        card.time_stamp.toString().substr(0, 10) +
                         "    </div>\n" +
                         "\n" +
                         "        <div class=\"disagree-container\">\n" +
-                        "            <i class=\"fa fa-times notClicked\" aria-hidden=\"true\"></i>\n" +
+                        "            <i class=\"fa fa-times " + disagreedClass + "\" aria-hidden=\"true\"></i>\n" +
                         "<span class=\"disagree-count\">" + card.disagree_count + "</span>" +
                         "        </div>\n" +
                         "        <div class=\"agree-container\">\n" +
-                        "            <i class=\"fa fa-check notClicked\" aria-hidden=\"true\"></i>\n" +
-                        "<span class=\"agree-count\">" + card.agree_count  + "</span>" +
+                        "            <i class=\"fa fa-check " + agreedClass + "\" aria-hidden=\"true\"></i>\n" +
+                        "<span class=\"agree-count\">" + card.agree_count + "</span>" +
                         "        </div>" +
                         "        </div>\n" +
                         "    </div>\n" +
                         "        </div>\n" +
                         "    </div>");
                 }
-            })});
-
+            })
+        });
 }
 
 
 
+function getUidList(nameOfList) {
+    var listOfUids = []
+    var ref = database.ref('users');
 
+    ref.once("value")
+        .then(function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                if (childSnapshot.val().ID == currentUser) {
+                    if (nameOfList == 'feed_uids') {
+                        temp = childSnapshot.val().feed_uids
+                        for (i = 0; i < temp.length; i++) {
+                            listOfUids.push(temp[i])
+                        }
+                    } else if (nameOfList == 'my_posts_uids') {
+                        temp = childSnapshot.val().my_posts_uids
+                        for (i = 0; i < temp.length; i++) {
+                            listOfUids.push(temp[i])
+                        }
+                    } else if (nameOfList == 'my_votes_uids') {
+                        temp = childSnapshot.val().my_votes_uids
+                        for (i = 0; i < temp.length; i++) {
+                            // lisOfUids looks different for 'my_votes_uids'. It has twice the length
+                            listOfUids.push(temp[i].uid)
+                            listOfUids.push(temp[i].vote)
+                        }
+                    }
 
-// Card attributes:
-//     UID
-//     Title
-//     Descriptive text
-//     Flag status
-//     Agree count
-//     Disagree count
-//     Time stamp
-//     Media url
+                }
 
+            })
+        })
+    //console.log(listOfUids)
+    return listOfUids;
+}

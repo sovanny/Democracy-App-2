@@ -8,17 +8,18 @@ console.log(currentUser)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // add a card_id to feed_uids of a given user
-// add_feed_uid(7)
-function add_feed_uid(feed_uid) {
+// add_feed_uid(7, 2)
+function add_feed_uid(feed_uid, user_id) {
     userRef.once("value")
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
-                if (childSnapshot.val().ID == currentUser) {
+                if (childSnapshot.val().ID == user_id) {
                     feed_uids_new = childSnapshot.val().feed_uids
                     feed_uids_new.push(feed_uid)
                     childSnapshot.ref.update({feed_uids: feed_uids_new});
                 }
-            })})
+            })
+        })
 }
 
 // remove a card_id from feed_uids of a given user
@@ -211,7 +212,8 @@ $(window).on("load", function () {
         if ($button.hasClass(agreedClass)) {
             $button.removeClass(agreedClass);
             $button.addClass(notClickedClass);
-            var cardUid = parseInt($button.closest("div .card").prop("id"));
+            var cardUid = parseInt($button.closest("div .card").prop("id")); // what is this?
+            // console.log(cardUid) // good
             // update agree_count
             database.ref('cards').once("value")
                 .then(function (snapshot) {
@@ -225,7 +227,7 @@ $(window).on("load", function () {
                     })
                 });
             remove_my_vote_uid(cardUid)
-            add_feed_uid(cardUid)
+            add_feed_uid(cardUid, currentUser)
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(agreedClass);
@@ -238,11 +240,17 @@ $(window).on("load", function () {
                     snapshot.forEach(function (childSnapshot) {
                         if (childSnapshot.val().UID == cardUid) {
 
-                            var old_count = childSnapshot.val().agree_count;
-                            if (old_count == 99) {
+                            var old_agree_count = childSnapshot.val().agree_count
+                            var old_disagree_count = childSnapshot.val().disagree_count
+                            if (old_agree_count == 99) {
                                 $("#" + cardUid).addClass('in-progress')
                             }
-                            childSnapshot.ref.update({agree_count: old_count + 1});
+                            childSnapshot.ref.update({agree_count: old_agree_count + 1});
+                            // in case it was there with a 'disagree' status
+                            // if ($button.hasClass('disagreed')) {
+                            //     remove_my_vote_uid(cardUid)
+                            //     childSnapshot.ref.update({disagree_count: old_disagree_count - 1});
+                            // }
                         }
                     })
                 });
@@ -273,7 +281,7 @@ $(window).on("load", function () {
                     })
                 });
             remove_my_vote_uid(cardUid)
-            add_feed_uid(cardUid)
+            add_feed_uid(cardUid, currentUser)
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(disagreedClass);
@@ -318,7 +326,7 @@ $(window).on("load", function () {
         }
         else if ($tab.hasClass('my-votes-view')) {
             var listOfUids = getUidList('my_votes_uids');
-            console.log(listOfUids) // - correct, but not sure if it's loaded fast enough
+            //console.log(listOfUids) // - correct, but not sure if it's loaded fast enough
             loadCardContent($view, listOfUids, 'votes');
         }
         else if ($tab.hasClass('my-posts-view')) {
@@ -351,6 +359,7 @@ $(window).on("load", function () {
         $view.empty();
         var cardContent = database.ref('cards');
         console.log(list_type)
+        console.log(uidList)
 
         // display cards
         //console.log(uidList) // wrong == feed_uids
@@ -487,22 +496,22 @@ $(window).on("load", function () {
 // userRef.push({
 //     ID: 20150950,
 //     password: 'olzhas',
-//     feed_uids: [3, 4, 5, 6, 7],
+//     feed_uids: [0, 3, 4, 5, 6, 7],
 //     my_posts_uids: [-1],
-//     my_votes_uids: [{uid: 1, vote: -1}, {uid: 2, vote: -2}]
+//     my_votes_uids: [{uid: 0, vote: 0}, {uid: 1, vote: -1}, {uid: 2, vote: -2}]
 // });
 // userRef.push({
 //     ID: 20170001,
 //     password: 'simon',
-//     feed_uids: [1, 4, 5, 6, 7],
+//     feed_uids: [0, 1, 4, 5, 6, 7],
 //     my_posts_uids: [-1],
-//     my_votes_uids: [{uid: 2, vote: -1}, {uid: 3, vote: -2}]
+//     my_votes_uids: [{uid: 0, vote: 0}, {uid: 2, vote: -1}, {uid: 3, vote: -2}]
 // });
 // userRef.push({
 //     ID: 20170002,
 //     password: 'sanni',
-//     feed_uids: [1, 2, 3, 6, 7],
+//     feed_uids: [0, 1, 2, 3, 6, 7],
 //     my_posts_uids: [-1],
-//     my_votes_uids: [{uid: 4, vote: -2}, {uid: 5, vote: -1}]
+//     my_votes_uids: [{uid: 0, vote: 0}, {uid: 4, vote: -2}, {uid: 5, vote: -1}]
 // });
 
