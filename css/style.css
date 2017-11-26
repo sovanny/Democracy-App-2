@@ -95,15 +95,16 @@ body{
 .card-title{
     font-size: 3rem;
     margin: 25px;
-    color: #5A5A5A;
+    color: #000000;
 
 }
 .expandable-content{
     height: 100px;
     background: gray;
+    color: #4b4b4b;
 }
 .card-content{
-    color: black;
+
     font-size: 1rem;
     margin: 25px;
     margin-bottom: 40px;
@@ -112,7 +113,12 @@ body{
 
 .status-msg-list-container{
     margin: 25px;
+    font-size: 0.8rem;
 }
+.status-msg-time{
+    margin-bottom: 0;
+}
+
 
 
 .footer-container{
