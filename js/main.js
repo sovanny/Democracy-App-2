@@ -247,6 +247,10 @@ $(window).on("load", function () {
                         if (childSnapshot.val().UID == cardUid) {
 
                             var old_agree_count = childSnapshot.val().agree_count
+                            ///
+                           // document.getElementById("disagreeBtn" + cardUid).classList.remove("disagreed")
+                           // document.getElementById("disagreeBtn" + cardUid).addClass('noClicked')
+                            ///
                             var old_disagree_count = childSnapshot.val().disagree_count
                             if (old_agree_count == 99) {
                                 $("#" + cardUid).addClass('in-progress')
@@ -381,7 +385,7 @@ $(window).on("load", function () {
 
                         /////////////////////////////////// only this is specific to votes - start
                         if (list_type == 'votes') {
-                            if (uidList[uidList.indexOf(card.UID) + 1] == -2) {
+                            if (uidList[uidList.indexOf(card.UID) + 1] == -2) {   /// can get bugs here if card is stored several times
                                 disagreedClass = "disagreed";
                             } else if (uidList[uidList.indexOf(card.UID) + 1] == -1) {
                                 agreedClass = "agreed";
@@ -401,7 +405,6 @@ $(window).on("load", function () {
                         else if (card.stage == 3) {
                             cardStatusClass = 'cancelled';
                         }
-
                         var statusTextHtml = "";
 
                         // This block will create the html for the Status Messages
@@ -442,17 +445,22 @@ $(window).on("load", function () {
                             "    </div>\n" +
                             "\n" +
                             "        <div class=\"disagree-container\">\n" +  //
-                            "            <i class=\"fa fa-times " + disagreedClass + "\" aria-hidden=\"true\"></i>\n" +
+                            "            <i class=\"fa fa-times " + disagreedClass + "\"" + "id=\"" + "disagreeBtn" + card.UID  + "\" aria-hidden=\"true\"></i>\n" +
                             "<span class=\"disagree-count"  + "\"" + "id=\"" + "disagree-count" + card.UID + "\"" + ">" + card.disagree_count + "</span>" +
                             "        </div>\n" +
                             "        <div class=\"agree-container\">\n" +
-                            "            <i class=\"fa fa-check " + agreedClass + "\" aria-hidden=\"true\"></i>\n" +
+                            "            <i class=\"fa fa-check " + agreedClass + "\"" + "id=\"" + "agreeBtn" + card.UID  + "\" aria-hidden=\"true\"></i>\n" +
                             "<span class=\"agree-count" + "\"" + "id=\"" + "agree-count" + card.UID + "\"" + ">" + card.agree_count + "</span>" +
                             "        </div>" +
                             "        </div>\n" +
                             "    </div>\n" +
                             "        </div>\n" +
                             "    </div>");
+                        // if card is closed, make buttons inactive
+                        if (card.stage == 2) {
+                            document.getElementById("agreeBtn" + card.UID).disabled = true;
+                            document.getElementById("disagreeBtn" + card.UID).disabled = true;
+                        }
                     }
                 })
             });
