@@ -95,7 +95,7 @@ $(document).ready(function(){
 function add_new_post_to_feed(uid) {
     //users = get_all_user_ids()
     // decided to have a fixed list of ids instead of using get_all_user_ids() due to bugs
-    users = [20150950, 20176472, 20176478]
+    users = [20150950, 20176472, 20176478, 0]
     for (i = 0; i < users.length; i++) {
         add_feed_uid(uid, users[i])
     }
