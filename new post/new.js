@@ -114,12 +114,14 @@ function selectTab($tabs, $tab) {
     $tab.addClass(selectedClass);
 }
 
-// This is the actual function that we can use
 function loadCardContent($view, uidList, list_type) {
 
     // empty the current content
     $view.empty();
     var cardContent = database.ref('cards');
+    console.log(list_type)
+    console.log(uidList)
+
     // display cards
     //console.log(uidList) // wrong == feed_uids
     cardContent.once("value")
@@ -133,7 +135,7 @@ function loadCardContent($view, uidList, list_type) {
 
                     /////////////////////////////////// only this is specific to votes - start
                     if (list_type == 'votes') {
-                        if (uidList[uidList.indexOf(card.UID) + 1] == -2) {
+                        if (uidList[uidList.indexOf(card.UID) + 1] == -2) {   /// can get bugs here if card is stored several times
                             disagreedClass = "disagreed";
                         } else if (uidList[uidList.indexOf(card.UID) + 1] == -1) {
                             agreedClass = "agreed";
@@ -153,7 +155,6 @@ function loadCardContent($view, uidList, list_type) {
                     else if (card.stage == 3) {
                         cardStatusClass = 'cancelled';
                     }
-
                     var statusTextHtml = "";
 
                     // This block will create the html for the Status Messages
@@ -185,7 +186,7 @@ function loadCardContent($view, uidList, list_type) {
                         "        </p>\n" +
                         statusTextHtml +
                         "    </div>\n" +
-                        "        <div class=\"footer-container\">\n" +
+                        "        <div class=\"footer-container\">\n" + ////
                         "<div class=\"flag-container\">\n" +
                         "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +
                         "        </div>\n" +
@@ -193,18 +194,23 @@ function loadCardContent($view, uidList, list_type) {
                         card.time_stamp.toString().substr(0, 10) +
                         "    </div>\n" +
                         "\n" +
-                        "        <div class=\"disagree-container\">\n" +
-                        "            <i class=\"fa fa-times " + disagreedClass + "\" aria-hidden=\"true\"></i>\n" +
-                        "<span class=\"disagree-count\">" + card.disagree_count + "</span>" +
+                        "        <div class=\"disagree-container\">\n" +  //
+                        "            <i class=\"fa fa-times " + disagreedClass + "\"" + "id=\"" + "disagreeBtn" + card.UID  + "\" aria-hidden=\"true\"></i>\n" +
+                        "<span class=\"disagree-count"  + "\"" + "id=\"" + "disagree-count" + card.UID + "\"" + ">" + card.disagree_count + "</span>" +
                         "        </div>\n" +
                         "        <div class=\"agree-container\">\n" +
-                        "            <i class=\"fa fa-check " + agreedClass + "\" aria-hidden=\"true\"></i>\n" +
-                        "<span class=\"agree-count\">" + card.agree_count + "</span>" +
+                        "            <i class=\"fa fa-check " + agreedClass + "\"" + "id=\"" + "agreeBtn" + card.UID  + "\" aria-hidden=\"true\"></i>\n" +
+                        "<span class=\"agree-count" + "\"" + "id=\"" + "agree-count" + card.UID + "\"" + ">" + card.agree_count + "</span>" +
                         "        </div>" +
                         "        </div>\n" +
                         "    </div>\n" +
                         "        </div>\n" +
                         "    </div>");
+                    // if card is closed, make buttons inactive
+                    if (card.stage == 2) {
+                        document.getElementById("agreeBtn" + card.UID).disabled = true;
+                        document.getElementById("disagreeBtn" + card.UID).disabled = true;
+                    }
                 }
             })
         });
