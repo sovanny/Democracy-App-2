@@ -29,7 +29,9 @@ $(document).ready(function(){
     $('#feed-container').on('click', '#postBtn', function(e){
         title = document.getElementById("title").value;
         details = document.getElementById("details").value;
-        url = document.getElementById("url").value;
+        // not using url right now
+        //url = document.getElementById("url").value;
+        url ="";
         date = document.getElementById("date").value;
         // date.placeholder = Date.now();
         // if user didn't type date, it will be set to current date
