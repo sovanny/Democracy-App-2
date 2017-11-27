@@ -36,7 +36,7 @@ $(document).ready(function(){
         // date.placeholder = Date.now();
         // if user didn't type date, it will be set to current date
         if (date == "") {
-            date = Date.now();
+            date = Date.now().toISOString();
         }
         cardRef.push({
             UID: next_uid,
