@@ -32,13 +32,15 @@ $(document).ready(function(){
         // not using url right now
         //url = document.getElementById("url").value;
         url ="";
-        date = document.getElementById("date").value;
+        //date = document.getElementById("date").value;
+        var d = new Date();
+        date = d.toISOString()
         // date.placeholder = Date.now();
         // if user didn't type date, it will be set to current date
-        if (date == "") {
-            date = Date.now();
-            //date = date.toISOString()
-        }
+        //if (date == "") {
+        //    var d = new Date();
+        //    date = d.toISOString()
+        //}
         cardRef.push({
             UID: next_uid,
             title: title,
