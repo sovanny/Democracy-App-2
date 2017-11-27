@@ -151,14 +151,10 @@ $(window).on("load", function () {
         $('#feed-container').on('click', '.fa-check', function (e) {
             agree($(e.target));
 
-            var x = document.getElementById("snackbar")
-            x.className = "show";
-            setTimeout(function () {
-                x.className = x.className.replace("show", "");
-            }, 3000);
 
 
-            var uidList;
+
+            //var uidList;
             // setTimeout(function() { uidList =  getUidList('feed_uids'); }, 3000);
             // setTimeout(function() { loadCardContent($('#feed-container'), uidList); }, 3000);
 
@@ -203,6 +199,15 @@ $(window).on("load", function () {
         }
 
 
+    }
+
+    //Show the snackbar (when the user has voted)
+    function showSnackbar(){
+        var x = document.getElementById("snackbar")
+        x.className = "show";
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 3000);
     }
 
     function agree($button) {
@@ -287,6 +292,9 @@ $(window).on("load", function () {
                         }
                     })
                 });
+
+            // Add snackbar (toast message)
+            showSnackbar();
         }
 
     }
@@ -363,6 +371,8 @@ $(window).on("load", function () {
                         }
                     })
                 });
+
+            showSnackbar();
         }
 
     }
