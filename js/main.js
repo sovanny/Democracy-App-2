@@ -221,11 +221,17 @@ $(window).on("load", function () {
                         if (childSnapshot.val().UID == cardUid) {
 
                             var old_count = childSnapshot.val().agree_count;
-
+                            document.getElementById("agree-count" + cardUid).innerHTML = old_count - 1
                             childSnapshot.ref.update({agree_count: old_count - 1});
                         }
                     })
                 });
+             // card = $button.closest("div .card")
+             // console.log(card.before('div footer-container').prop("class"))
+             // console.log($button.closest("div .card").before("div footer-container").before("div .agree-container").prop("class")) // before("span .agree-count").css("font-color", "red")
+            //console.log($button.parent().find('.footer-container').find('.agree-container').prop("class")) //html($('<span>').text('hello'))
+           // $(this).parent().parent().find('.divStatus').html($('<span>').text('in progress...'))
+            //console.log($button.closest("span .agree-count").innerHTML)
             remove_my_vote_uid(cardUid)
             add_feed_uid(cardUid, currentUser)
         } else {
@@ -245,6 +251,7 @@ $(window).on("load", function () {
                             if (old_agree_count == 99) {
                                 $("#" + cardUid).addClass('in-progress')
                             }
+                            document.getElementById("agree-count" + cardUid).innerHTML = old_agree_count + 1
                             childSnapshot.ref.update({agree_count: old_agree_count + 1});
                             // in case it was there with a 'disagree' status
                             // if ($button.hasClass('disagreed')) {
@@ -275,7 +282,7 @@ $(window).on("load", function () {
                         if (childSnapshot.val().UID == cardUid) {
 
                             var old_count = childSnapshot.val().disagree_count;
-
+                            document.getElementById("disagree-count" + cardUid).innerHTML = old_count - 1
                             childSnapshot.ref.update({disagree_count: old_count - 1});
                         }
                     })
@@ -295,7 +302,7 @@ $(window).on("load", function () {
                         if (childSnapshot.val().UID == cardUid) {
 
                             var old_count = childSnapshot.val().disagree_count;
-
+                            document.getElementById("disagree-count" + cardUid).innerHTML = old_count + 1
                             childSnapshot.ref.update({disagree_count: old_count + 1});
                         }
                     })
@@ -426,7 +433,7 @@ $(window).on("load", function () {
                             "        </p>\n" +
                             statusTextHtml +
                             "    </div>\n" +
-                            "        <div class=\"footer-container\">\n" +
+                            "        <div class=\"footer-container\">\n" + ////
                             "<div class=\"flag-container\">\n" +
                             "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +
                             "        </div>\n" +
@@ -434,13 +441,13 @@ $(window).on("load", function () {
                             card.time_stamp.toString().substr(0, 10) +
                             "    </div>\n" +
                             "\n" +
-                            "        <div class=\"disagree-container\">\n" +
+                            "        <div class=\"disagree-container\">\n" +  //
                             "            <i class=\"fa fa-times " + disagreedClass + "\" aria-hidden=\"true\"></i>\n" +
-                            "<span class=\"disagree-count\">" + card.disagree_count + "</span>" +
+                            "<span class=\"disagree-count"  + "\"" + "id=\"" + "disagree-count" + card.UID + "\"" + ">" + card.disagree_count + "</span>" +
                             "        </div>\n" +
                             "        <div class=\"agree-container\">\n" +
                             "            <i class=\"fa fa-check " + agreedClass + "\" aria-hidden=\"true\"></i>\n" +
-                            "<span class=\"agree-count\">" + card.agree_count + "</span>" +
+                            "<span class=\"agree-count" + "\"" + "id=\"" + "agree-count" + card.UID + "\"" + ">" + card.agree_count + "</span>" +
                             "        </div>" +
                             "        </div>\n" +
                             "    </div>\n" +
