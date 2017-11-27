@@ -129,6 +129,7 @@ $(window).on("load", function () {
         // Run selectTab and loadCardContent once in order to show something upon loading
         selectTab($tabs, $($tabs[0]))
 
+
         var listOfUids = getUidList('feed_uids');
         loadCardContent($('#feed-container'), listOfUids, 'feed');
 
@@ -154,6 +155,7 @@ $(window).on("load", function () {
 
 
 
+
             //var uidList;
             // setTimeout(function() { uidList =  getUidList('feed_uids'); }, 3000);
             // setTimeout(function() { loadCardContent($('#feed-container'), uidList); }, 3000);
@@ -164,11 +166,7 @@ $(window).on("load", function () {
         $('#feed-container').on('click', '.fa-times', function (e) {
             disAgree($(e.target));
 
-            var x = document.getElementById("snackbar")
-            x.className = "show";
-            setTimeout(function () {
-                x.className = x.className.replace("show", "");
-            }, 3000);
+
 
             // loadCardContent($('#feed-container'), getUidList('feed_uids'));
         })
@@ -239,6 +237,10 @@ $(window).on("load", function () {
             //console.log($button.closest("span .agree-count").innerHTML)
             remove_my_vote_uid(cardUid)
             add_feed_uid(cardUid, currentUser)
+
+            // remove card
+            $('#' + cardUid).toggle('slide');
+
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(agreedClass);
@@ -295,6 +297,9 @@ $(window).on("load", function () {
 
             // Add snackbar (toast message)
             showSnackbar();
+
+            // remove card
+            $('#' + cardUid).toggle('slide');
         }
 
     }
@@ -321,6 +326,10 @@ $(window).on("load", function () {
                 });
             remove_my_vote_uid(cardUid)
             add_feed_uid(cardUid, currentUser)
+
+            // remove card
+            $('#' + cardUid).toggle('slide');
+
         } else {
             $button.removeClass(notClickedClass);
             $button.addClass(disagreedClass);
@@ -373,6 +382,9 @@ $(window).on("load", function () {
                 });
 
             showSnackbar();
+
+            // remove card
+            $('#' + cardUid).toggle('slide');
         }
 
     }
