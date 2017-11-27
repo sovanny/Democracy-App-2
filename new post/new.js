@@ -114,7 +114,10 @@ function add_new_post_to_feed(uid) {
 function selectTab($tabs, $tab) {
     const selectedClass = 'selected';
     $tabs.removeClass(selectedClass);
+    $tabs.children().removeClass(selectedClass);
+
     $tab.addClass(selectedClass);
+    $tab.children().addClass(selectedClass);
 }
 
 function loadCardContent($view, uidList, list_type) {
