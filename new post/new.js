@@ -78,14 +78,24 @@ $(document).ready(function(){
     //     });
     // });
         const $view = $('#feed-container')
-        var listOfUids = getUidList("my_posts_uids")
-
-        loadCardContent($view, listOfUids);
+        //var listOfUids = getUidList("my_posts_uids")
+        //loadCardContent($view, listOfUids);
         // A variable for the tabs
-        const $tabs = $('#bottom-navbar .tab')
-
+        //const $tabs = $('#bottom-navbar .tab')
         // Run selectTab and loadCardContent once in order to show something upon loading
-        selectTab($tabs, $($tabs[2]))
+        //selectTab($tabs, $($tabs[2]))
+
+        setTimeout(function () {
+            var listOfUids2 = getUidList("my_posts_uids")
+            loadCardContent($view, listOfUids2);
+            // A variable for the tabs
+            const $tabs = $('#bottom-navbar .tab')
+            // Run selectTab and loadCardContent once in order to show something upon loading
+            selectTab($tabs, $($tabs[2]))
+        }, 1500);
+
+
+
     })
 
 });
