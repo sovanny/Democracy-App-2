@@ -484,7 +484,7 @@ $(window).on("load", function () {
                             statusTextHtml = "<div class=\"status-msg-list-container\">\n";
                             // for each message in the list
                             for (var message in card.status_log) {
-                                console.log(card.status_log[message]);
+
                                 statusTextHtml += "<div class=\"status-msg-container\">\n" +
                                     "        <p class=\"status-msg-time\">\n" +
                                     //first 16 chars in string toString().substr(0,16)-->
