@@ -1,15 +1,22 @@
+#instructions{
+    font-size: 2rem;
+    text-align: left;
+    margin:25px;
+    font-family: 'Open Sans', sans-serif;
+}
 textarea::-webkit-input-placeholder{
     color: #a5a5a5;
-    font-size:  xx-large;
+    font-size:  3rem;
 }
 textarea {
     width: 92vw;
-    height: 100px;
+    height: 15vw;
+    font-size: 3rem;
 }
 #details {
     width: 92vw;
     height: 120px;
-    font-size: xx-large;
+    font-size: 3rem;
 }
 button {
     background-color: #5A5A5A;
