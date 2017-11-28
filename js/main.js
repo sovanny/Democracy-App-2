@@ -446,7 +446,7 @@ $(window).on("load", function () {
 
         // display cards
         //console.log(uidList) // wrong == feed_uids
-        cardContent.once("value")
+        cardContent.orderByChild('time_stamp').once("value")
             .then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     card = childSnapshot.val()
@@ -498,7 +498,7 @@ $(window).on("load", function () {
                             statusTextHtml += "</div>";
                         }
 
-                        $view.append("<div class=\"card " + cardStatusClass + "\"" + "id=\"" + card.UID + "\"" + ">\n" +
+                        $view.prepend("<div class=\"card " + cardStatusClass + "\"" + "id=\"" + card.UID + "\"" + ">\n" +
                             "        <p class=\"card-title \">\n" +
                             card.title +
                             "        </p>\n" +
