@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Sign up</title>
+    <link href="signup/signup.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.1/firebase.js"></script>
+
+    <script type="text/javascript" src="signup/signup.js"></script>
+</head>
+
+<body>
+<div id="header">KAI'STEER</div>
+<div id="login_prompt">Sign up - Enter your KAIST ID and a new password (not your KAIST one).</div>
+<div id="login_box">
+    <input type="text" placeholder="KAIST ID" class="input-box" id="id" required><br>
+    <input type="password" placeholder="Password" class="input-box" id="password1" required><br>
+    <input type="password" placeholder="Re-enter password" class="input-box" id="password2" required><br>
+
+
+    <button type="submit" id="signupBtn">Sign up</button>
+    <div id="snackbar"></div>
+</div>
+</body>
+</html>
+
