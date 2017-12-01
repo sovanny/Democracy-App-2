@@ -15,3 +15,28 @@
 //     my_posts_uids: [-1],
 //     my_votes_uids: [{uid: 0, vote: 0}]
 // });
+
+
+// userRef.once("value")
+//     .then(function (snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             if ((childSnapshot.val().ID == 20150950) || (childSnapshot.val().ID == 20176472)) {
+//                 for (i = 8; i <= 15; i++) {
+//                     console.log(i)
+//                     add_feed_uid(i, childSnapshot.val().ID)
+//                 }
+//             }
+//         })
+//
+//     })
+
+indices = [8, 9, 10, 11, 12, 13, 14, 15]
+// for indix in indices {
+//     add_feed_uid(indix, 20150950)
+// }
+
+// $.each(indices, function( index, value ) {
+//     add_feed_uid(index, 20150950)
+// });
+
+// add_feed_uid(9, 20150950)
