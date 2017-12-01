@@ -105,10 +105,16 @@ $(document).ready(function(){
 function add_new_post_to_feed(uid) {
     //users = get_all_user_ids()
     // decided to have a fixed list of ids instead of using get_all_user_ids() due to bugs
-    users = [20150950, 20176472, 20176478, 0, 'user1', 'user2', 'user3', 'user4', 'user5','user6', 'user7', 'user8', 'user9', 'user10', 'user11', 'user12', 'user13', 'user14', 'user15', 'user16', 'user17', 'user18', 'user19', 'user20', 'user21', 'user22', 'user23', 'user24', 'user25', 'user26', 'user27', 'user28', 'user29', 'user30', 'user31', 'user32', 'user33', 'user34']
-    for (i = 0; i < users.length; i++) {
-        add_feed_uid(uid, users[i])
-    }
+    userRef.once("value")
+    .then(function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+            add_feed_uid(uid, childSnapshot.val().ID)
+        })
+    })
+    // users = [20150950, 20176472, 20176478, 20140904, 'user1', 'user2', 'user3', 'user4', 'user5','user6', 'user7', 'user8', 'user9', 'user10', 'user11', 'user12', 'user13', 'user14', 'user15', 'user16', 'user17', 'user18', 'user19', 'user20', 'user21', 'user22', 'user23', 'user24', 'user25', 'user26', 'user27', 'user28', 'user29', 'user30', 'user31', 'user32', 'user33', 'user34']
+    // for (i = 0; i < users.length; i++) {
+    //     add_feed_uid(uid, users[i])
+    // }
 }
 
 // function get_all_user_ids() {
