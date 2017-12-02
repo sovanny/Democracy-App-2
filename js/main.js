@@ -551,6 +551,18 @@ $(window).on("load", function () {
                             document.getElementById("agreeBtn" + card.UID).disabled = true;
                             document.getElementById("disagreeBtn" + card.UID).disabled = true;
                         }
+                        // disable voting buttons for my_posts
+                        // somehow doesn't work for Alisher's posts
+                        userRef.once("value")
+                            .then(function (snapshot) {
+                                snapshot.forEach(function (childSnapshot) {
+                                    if ((childSnapshot.val().ID == currentUser) && (childSnapshot.val().my_posts_uids.includes(card.UID))) {
+                                        document.getElementById("agreeBtn" + card.UID).disabled = true;
+                                        document.getElementById("disagreeBtn" + card.UID).disabled = true;
+                                    }
+                                })
+                            })
+
                     }
                 })
             });
