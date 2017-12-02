@@ -173,6 +173,7 @@ $(window).on("load", function () {
         // when clicking on flag
         $('#feed-container').on('click', '.fa-flag', function (e) {
             flagPost($(e.target));
+
         })
 
     }
@@ -394,6 +395,16 @@ $(window).on("load", function () {
         const notClickedClass = 'notClicked';
         $button.removeClass(notClickedClass);
         $button.addClass(flaggedClass);
+        var cardUid = parseInt($button.closest("div .card").prop("id"));
+        cardRef.once("value")
+            .then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    if (childSnapshot.val().UID == cardUid) {
+                        childSnapshot.ref.update({flag_status: "flagged"});
+                    }
+                })
+            })
+        console.log(cardUid)
     }
 
     // function definition
@@ -497,6 +508,12 @@ $(window).on("load", function () {
                             }
                             statusTextHtml += "</div>";
                         }
+                        // this doesn't work right now because flag_status is never set to flagged
+                        if (card.flag_status == "noflag") {
+                            var flag_class = "notClicked"
+                        } else {
+                            var flag_class = "flagged"
+                        }
 
                         $view.prepend("<div class=\"card " + cardStatusClass + "\"" + "id=\"" + card.UID + "\"" + ">\n" +
                             "        <p class=\"card-title \">\n" +
@@ -510,7 +527,8 @@ $(window).on("load", function () {
                             "    </div>\n" +
                             "        <div class=\"footer-container\">\n" + ////
                             "<div class=\"flag-container\">\n" +
-                            "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +
+                            "            <i class=\"fa fa-flag " + flag_class + "\""  + "aria-hidden=\"true\"></i>\n" +
+                            // "            <i class=\"fa fa-flag notClicked\"  aria-hidden=\"true\"></i>\n" +
                             "        </div>\n" +
                             "    <div class=\"date-container\">\n" +
                             card.time_stamp.toString().substr(0, 10) +

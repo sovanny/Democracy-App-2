@@ -30,7 +30,6 @@
 //
 //     })
 
-indices = [8, 9, 10, 11, 12, 13, 14, 15]
 // for indix in indices {
 //     add_feed_uid(indix, 20150950)
 // }
@@ -40,3 +39,18 @@ indices = [8, 9, 10, 11, 12, 13, 14, 15]
 // });
 
 // add_feed_uid(9, 20150950)
+
+// get author of the post
+
+// function get_author(uid) {
+//     userRef.once("value")
+//     .then(function (snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             if (childSnapshot.val().my_posts_uids.includes(uid)) {
+//                 console.log(childSnapshot.val().ID)
+//             }
+//         })
+//     })
+// }
+//
+// get_author(21)
