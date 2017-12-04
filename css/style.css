@@ -237,7 +237,8 @@ body{
 }
 
 #feedbackBtn {
-    background-color: #505050;
+    background-color: #30A9F3;
+    font-weight: 600;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
