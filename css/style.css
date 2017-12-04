@@ -247,7 +247,19 @@ body{
     to {bottom: 0; opacity: 0;}
 }
 
-#feedbackBtn, #aboutBtn {
+#feedbackBtn {
+    background-color: #30A9F3;
+    font-weight: 600;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    height: 120px;
+}
+
+#aboutBtn {
     background-color: #30A9F3;
     font-weight: 600;
     color: white;
