@@ -685,6 +685,10 @@ $(window).on("load", function () {
         console.log('feedback')
         window.open("https://goo.gl/forms/DrU0bIC0lhceWkmH2")
     });
+    $("#aboutBtn").click(function() {
+        console.log('about')
+        window.open("./about/about.html")
+    });
 
 });
 

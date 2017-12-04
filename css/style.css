@@ -247,7 +247,7 @@ body{
     to {bottom: 0; opacity: 0;}
 }
 
-#feedbackBtn {
+#feedbackBtn, #aboutBtn {
     background-color: #30A9F3;
     font-weight: 600;
     color: white;
@@ -256,5 +256,5 @@ body{
     border: none;
     cursor: pointer;
     width: 100%;
-    height: 100px;
+    height: 120px;
 }
