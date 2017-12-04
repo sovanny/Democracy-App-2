@@ -37,6 +37,8 @@ input[type=text]::-webkit-input-placeholder, input[type=password]::-webkit-input
     border: none;
     cursor: pointer;
     width: 100%;
+    font-weight: 800;
+    height: 50px;
 }
 
 /*#feedbackBtn {*/
