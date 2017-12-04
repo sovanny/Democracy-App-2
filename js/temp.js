@@ -72,3 +72,15 @@
 //             childSnapshot.ref.update({flagged_users: [-1]})
 //         })
 //     })
+
+// add posting count to each user. Will be updated once a day.
+// userRef.once("value")
+//     .then(function (snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             if ((childSnapshot.val().ID != 20150950) && (childSnapshot.val().ID != 20176472) && (childSnapshot.val().ID != 20176478)) {
+//                 childSnapshot.ref.update({post_count: 0})
+//             } else {
+//                 childSnapshot.ref.update({post_count: -1000})
+//             }
+//         })
+//     })

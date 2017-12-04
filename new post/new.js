@@ -51,6 +51,7 @@ $(document).ready(function(){
             stage: 0,
             media_url: url,
             flag_status: "noflag",
+            flagged_users: [-1],
         });
 
         // also add this UIDs to my_posts
