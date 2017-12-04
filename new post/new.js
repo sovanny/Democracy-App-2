@@ -25,6 +25,13 @@ next_uidRef.once("value")
         })})
 
 
+function showSnackbarNewPost(){
+    var x = document.getElementById("snackbarNewPost")
+    x.className = "show";
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 3000);
+}
 
 
 $(document).ready(function(){
@@ -87,6 +94,7 @@ $(document).ready(function(){
                                 selectTab($tabs, $($tabs[2]))
                             }, 1500);
                         } else {
+                           showSnackbarNewPost();
                            console.log("you've posted too many posts, please come tomorrow")
                        }
                     }

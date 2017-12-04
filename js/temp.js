@@ -94,3 +94,6 @@
 //             console.log(childSnapshot.val().feed_uids)
 //         })
 //     })
+
+
+// update post counts once a day

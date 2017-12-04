@@ -200,7 +200,7 @@ body{
 
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar {
+#snackbar, #snackbarNewPost{
     visibility: hidden; /* Hidden by default. Visible on click */
     min-width: 600px; /* Set a default minimum width */
     margin-left: -300px; /* Divide value of min-width by 2 */
@@ -217,7 +217,7 @@ body{
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar.show {
+#snackbar.show, #snackbarNewPost.show{
     visibility: visible; /* Show the snackbar */
 
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
