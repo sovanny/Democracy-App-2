@@ -30,8 +30,9 @@ $(document).ready(function(){
     userRef.once("value")
         .then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
-                user = childSnapshot.val();
-                allUserIDs.push(user.ID);
+                user_id = childSnapshot.val().ID;
+                allUserIDs.push(user_id.toString());
+                //console.log(allUserIDs[0])
             })});
 
 
