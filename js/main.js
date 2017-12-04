@@ -140,6 +140,12 @@ $(window).on("load", function () {
             $(this).siblings('#expandable-content').slideToggle("slow");
         })
 
+        //When clicking on the arrow
+        $('#feed-container').on('click', '.arrow-container', function (e) {
+            // Expand to show post description
+            $(this).parent().siblings('#expandable-content').slideToggle("slow");
+        })
+
         // When clicking one of the tabs
         $tabs.on('click', function (e) {
             // Change color of tab
@@ -600,6 +606,9 @@ $(window).on("load", function () {
                             card.time_stamp.toString().substr(0, 10) +
                             "    </div>\n" +
                             "\n" +
+                            "    <div class=\"arrow-container\">\n" +
+                            "<i class=\"fa fa-angle-double-down\" aria-hidden=\"true\"></i>\n" +
+                            "    </div>\n" +
                             "        <div class=\"disagree-container\">\n" +  //
                             "            <i class=\"fa fa-times " + disagreedClass + "\"" + "id=\"" + "disagreeBtn" + card.UID  + "\" aria-hidden=\"true\"></i>\n" +
                             "<span class=\"disagree-count"  + "\"" + "id=\"" + "disagree-count" + card.UID + "\"" + ">" + card.disagree_count + "</span>" +

@@ -160,6 +160,17 @@ body{
     color: #5F5F5F;
 }
 
+
+.arrow-container{
+    float: left;
+    margin-right: 50%;
+    margin-left: 50%;
+    color: #cccccc;
+    font-size: 3.6rem;
+    position: absolute;
+}
+
+
 .agree-container{
     float: right;
     margin-right: 30px;
