@@ -18,7 +18,6 @@ var cardRef = database.ref("cards")
 
 
 $(document).ready(function(){
-
     allCardUids = [];
     cardRef.once("value")
         .then(function (snapshot) {

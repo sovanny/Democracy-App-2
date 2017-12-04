@@ -13,6 +13,7 @@ var cardRef = database.ref("cards")
 var myPostRef = database.ref("my_posts_uids")
 
 var next_uidRef = database.ref("next_uid")
+post_count = localStorage.getItem("post_count")
 //
 //
 // console.log('below')
@@ -27,6 +28,7 @@ next_uidRef.once("value")
 
 $(document).ready(function(){
     $('#feed-container').on('click', '#postBtn', function(e){
+        console.log(post_count)
         title = document.getElementById("title").value;
         details = document.getElementById("details").value;
         // not using url right now

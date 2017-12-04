@@ -26,7 +26,9 @@ $(document).ready(function(){
             .then(function(snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     if ((childSnapshot.val().ID == id) && (childSnapshot.val().password == psw)) {
-                        console.log('success');
+                        //console.log(childSnapshot.val())
+                        post_count = childSnapshot.val().post_count;
+                        localStorage.setItem("post_count",post_count);
                         localStorage.setItem("currentUser",id);
                         window.location.href = "./index2.html";
                     } else {

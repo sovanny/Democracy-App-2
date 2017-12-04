@@ -84,3 +84,13 @@
 //             }
 //         })
 //     })
+
+
+// userRef.once("value")
+//     .then(function (snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             console.log(childSnapshot.val().ID)
+//             //console.log(childSnapshot.key()
+//             console.log(childSnapshot.val().feed_uids)
+//         })
+//     })

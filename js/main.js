@@ -14,6 +14,7 @@ function add_feed_uid(feed_uid, user_id) {
         .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 if (childSnapshot.val().ID == user_id) {
+                   // console.log('mistake ' + user_id)
                     feed_uids_new = childSnapshot.val().feed_uids
                     feed_uids_new.push(feed_uid)
                     childSnapshot.ref.update({feed_uids: feed_uids_new});
