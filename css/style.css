@@ -235,3 +235,14 @@ body{
     from {bottom: 10vh; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+#feedbackBtn {
+    background-color: #505050;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    height: 100px;
+}

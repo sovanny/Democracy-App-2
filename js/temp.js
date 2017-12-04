@@ -54,3 +54,14 @@
 // }
 //
 // get_author(21)
+
+
+// add flagged_uids to user_cards
+// userRef.once("value")
+//     .then(function (snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             if (childSnapshot.val().ID != 20150950) {
+//                 childSnapshot.ref.update({flagged_uids: [-1]})
+//             }
+//         })
+//     })
