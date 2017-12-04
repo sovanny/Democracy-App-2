@@ -13,7 +13,8 @@ var cardRef = database.ref("cards")
 var myPostRef = database.ref("my_posts_uids")
 
 var next_uidRef = database.ref("next_uid")
-post_count = localStorage.getItem("post_count")
+//post_count = localStorage.getItem("post_count")
+//console.log(post_count)
 //
 //
 // console.log('below')
@@ -28,75 +29,69 @@ next_uidRef.once("value")
 
 $(document).ready(function(){
     $('#feed-container').on('click', '#postBtn', function(e){
-        console.log(post_count)
-        title = document.getElementById("title").value;
-        details = document.getElementById("details").value;
-        // not using url right now
-        //url = document.getElementById("url").value;
-        url ="";
-        //date = document.getElementById("date").value;
-        var d = new Date();
-        date = d.toISOString()
-        // date.placeholder = Date.now();
-        // if user didn't type date, it will be set to current date
-        //if (date == "") {
-        //    var d = new Date();
-        //    date = d.toISOString()
-        //}
-        cardRef.push({
-            UID: next_uid,
-            title: title,
-            text: details,
-            agree_count: 0,
-            disagree_count: 0,
-            time_stamp: date,
-            stage: 0,
-            media_url: url,
-            flag_status: "noflag",
-            flagged_users: [-1],
-        });
+        userRef.once("value")
+            .then(function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    if (childSnapshot.val().ID == currentUser) {
+                        // if posted too many times today
+                       if (childSnapshot.val().post_count != 3) {
+                            //console.log(post_count)
+                           old_post_count = childSnapshot.val().post_count
+                           new_post_count = old_post_count + 1;
+                           childSnapshot.ref.update({post_count: new_post_count})
+                            title = document.getElementById("title").value;
+                            details = document.getElementById("details").value;
+                            // not using url right now
+                            //url = document.getElementById("url").value;
+                            url = "";
+                            //date = document.getElementById("date").value;
+                            var d = new Date();
+                            date = d.toISOString()
+                            cardRef.push({
+                                UID: next_uid,
+                                title: title,
+                                text: details,
+                                agree_count: 0,
+                                disagree_count: 0,
+                                time_stamp: date,
+                                stage: 0,
+                                media_url: url,
+                                flag_status: "noflag",
+                                flagged_users: [-1],
+                            });
 
-        // also add this UIDs to my_posts
-        add_my_post_uid(next_uid)
+                            // also add this UIDs to my_posts
+                            add_my_post_uid(next_uid)
 
-        // add the post to everyone's feed
-        add_new_post_to_feed(next_uid)
+                            // add the post to everyone's feed
+                            add_new_post_to_feed(next_uid)
 
-        // don't add it to my_votes
+                            // don't add it to my_votes
 
-        next_uidRef.once("value")
-            .then(function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    snapshot.ref.update({ next_uid: next_uid + 1 })
-                    next_uid += 1;
-                })})
-        //window.location.href = "../index.html";
-    //     $.ajax({
-    //         url: "feed.html",
-    //         success: function (data) {
-    //             $('#feed-container2').empty();
-    //             $('#feed-container2').append(data)
-    //         },
-    //         dataType: 'html'
-    //     });
-    // });
-        const $view = $('#feed-container')
-        //var listOfUids = getUidList("my_posts_uids")
-        //loadCardContent($view, listOfUids);
-        // A variable for the tabs
-        //const $tabs = $('#bottom-navbar .tab')
-        // Run selectTab and loadCardContent once in order to show something upon loading
-        //selectTab($tabs, $($tabs[2]))
+                            next_uidRef.once("value")
+                                .then(function (snapshot) {
+                                    snapshot.forEach(function (childSnapshot) {
+                                        snapshot.ref.update({next_uid: next_uid + 1})
+                                        next_uid += 1;
+                                    })
+                                })
 
-        setTimeout(function () {
-            var listOfUids2 = getUidList("my_posts_uids")
-            loadCardContent($view, listOfUids2);
-            // A variable for the tabs
-            const $tabs = $('#bottom-navbar .tab')
-            // Run selectTab and loadCardContent once in order to show something upon loading
-            selectTab($tabs, $($tabs[2]))
-        }, 1500);
+                            const $view = $('#feed-container')
 
+                            setTimeout(function () {
+                                var listOfUids2 = getUidList("my_posts_uids")
+                                loadCardContent($view, listOfUids2);
+                                // A variable for the tabs
+                                const $tabs = $('#bottom-navbar .tab')
+                                // Run selectTab and loadCardContent once in order to show something upon loading
+                                selectTab($tabs, $($tabs[2]))
+                            }, 1500);
+                        } else {
+                           console.log("you've posted too many posts, please come tomorrow")
+                       }
+                    }
+                })
+            })
 
 
     })
