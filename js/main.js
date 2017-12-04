@@ -210,57 +210,83 @@ $(window).on("load", function () {
     }
 
     // new version
-    // function flagPost($button) {
-    //     // need to give an id to this button
-    //     const flaggedClass = 'flagged';
-    //     const notClickedClass = 'notClicked';
-    //     $button.removeClass(notClickedClass);
-    //     $button.addClass(flaggedClass);
-    //     var cardUid = parseInt($button.closest("div .card").prop("id"));
-    //     userRef.once("value")
-    //         .then(function (snapshot) {
-    //             snapshot.forEach(function (childSnapshot) {
-    //                 if (childSnapshot.val().ID == currentUser) {
-    //                     flagged_uids_new = childSnapshot.val().flagged_uids
-    //                     flagged_uids_new.push(cardUid)
-    //                     childSnapshot.ref.update({flagged_uids: flagged_uids_new});
-    //
-    //                 }
-    //             })
-    //         })
-    //     // if it's one of the admins (Simon, Sanni or Olzhas), then make it appear flagged on everyone's feed [not just owr own]
-    //     if ((currentUser == 20150950) || (currentUser == 20176472) || (currentUser == 20176478)) {
-    //         // put it into everyone's flagged_uids
-    //         userRef.once("value")
-    //             .then(function (snapshot) {
-    //                 snapshot.forEach(function (childSnapshot) {
-    //                     flagged_uids_new = childSnapshot.val().flagged_uids
-    //                     flagged_uids_new.push(cardUid)
-    //                     childSnapshot.ref.update({flagged_uids: flagged_uids_new});
-    //                     // unflag - later
-    //                 })
-    //             })
-    //     }
-    //     console.log(cardUid)
-    // }
-
-    // old version
     function flagPost($button) {
+        // need to give an id to this button
         const flaggedClass = 'flagged';
         const notClickedClass = 'notClicked';
         $button.removeClass(notClickedClass);
         $button.addClass(flaggedClass);
         var cardUid = parseInt($button.closest("div .card").prop("id"));
+        // add currentUser to flagged users
         cardRef.once("value")
             .then(function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
                     if (childSnapshot.val().UID == cardUid) {
-                        childSnapshot.ref.update({flag_status: "flagged"});
+                        if ((currentUser == 20150950) || (currentUser == 20176472) || (currentUser == 20176478)) {
+                            flagged_users_new = childSnapshot.val().flagged_users
+                            userRef.once("value")
+                                .then(function (snapshot2) {
+                                    snapshot2.forEach(function (childSnapshot2) {
+                                        flagged_users_new.push(childSnapshot2.val().ID.toString())
+                                        childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                    })
+                                })
+                        } else {
+                                flagged_users_new = childSnapshot.val().flagged_users
+                                flagged_users_new.push(currentUser)
+                                childSnapshot.ref.update({flagged_users: flagged_users_new});
+                        }
                     }
                 })
             })
-        console.log(cardUid)
+        // card to flagged_uids of currentUser
+        // userRef.once("value")
+        //     .then(function (snapshot) {
+        //         snapshot.forEach(function (childSnapshot) {
+        //             if (childSnapshot.val().ID == currentUser) {
+        //                 flagged_uids_new = childSnapshot.val().flagged_uids
+        //                 flagged_uids_new.push(cardUid)
+        //                 childSnapshot.ref.update({flagged_uids: flagged_uids_new});
+        //
+        //             }
+        //         })
+        //     })
+        // if it's one of the admins (Simon, Sanni or Olzhas), then make it appear flagged on everyone's feed [not just owr own]
+
+        // if ((currentUser == 20150950) || (currentUser == 20176472) || (currentUser == 20176478)) {
+        //     // put it into everyone's flagged_uids
+        //     userRef.once("value")
+        //         .then(function (snapshot) {
+        //             snapshot.forEach(function (childSnapshot) {
+        //                 flagged_uids_new = childSnapshot.val().flagged_uids
+        //                 flagged_uids_new.push(cardUid)
+        //                 childSnapshot.ref.update({flagged_uids: flagged_uids_new});
+        //
+        //                 // unflag - later
+        //
+        //             })
+        //         })
+        // }
+
     }
+
+   // old version
+   //  function flagPost($button) {
+   //      const flaggedClass = 'flagged';
+   //      const notClickedClass = 'notClicked';
+   //      $button.removeClass(notClickedClass);
+   //      $button.addClass(flaggedClass);
+   //      var cardUid = parseInt($button.closest("div .card").prop("id"));
+   //      cardRef.once("value")
+   //          .then(function (snapshot) {
+   //              snapshot.forEach(function (childSnapshot) {
+   //                  if (childSnapshot.val().UID == cardUid) {
+   //                      childSnapshot.ref.update({flag_status: "flagged"});
+   //                  }
+   //              })
+   //          })
+   //      console.log(cardUid)
+   //  }
 
     function agree($button) {
         const agreedClass = 'agreed';
@@ -546,10 +572,11 @@ $(window).on("load", function () {
                             statusTextHtml += "</div>";
                         }
                         // should be changed to determine this from flagged_uids instead
-                        if (card.flag_status == "noflag") {
-                            var flag_class = "notClicked"
-                        } else {
+                        if (card.flagged_users.includes(currentUser)) {
+                            console.log("this card has been flagged: " + card.UID)
                             var flag_class = "flagged"
+                        } else {
+                            var flag_class = "notClicked"
                         }
                         // new version
                         //

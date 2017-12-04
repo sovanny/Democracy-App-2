@@ -65,3 +65,10 @@
 //             }
 //         })
 //     })
+
+// cardRef.once("value")
+//     .then(function(snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             childSnapshot.ref.update({flagged_users: [-1]})
+//         })
+//     })
