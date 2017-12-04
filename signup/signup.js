@@ -45,7 +45,7 @@ $(document).ready(function(){
 
         if(allUserIDs.indexOf(id) > -1){
             var x = document.getElementById("snackbar");
-            x.innerHTML ="USername aldready exists";
+            x.innerHTML ="Username aldready exists";
             x.className = "show";
 
             $('#id').empty();
@@ -74,6 +74,15 @@ $(document).ready(function(){
                 window.location.href = "./index2.html";
             }, 2000);
 
+        } else if (id.length != 8) {
+            console.log(id.length)
+            var x = document.getElementById("snackbar");
+            x.innerHTML ="This is not a valid KAIST ID number";
+            x.className = "show";
+            $('#id').empty();
+            setTimeout(function () {
+                x.className = x.className.replace("show", "");
+            }, 3000);
         }
         else{
             var x = document.getElementById("snackbar");
