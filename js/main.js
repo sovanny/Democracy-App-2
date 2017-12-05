@@ -216,6 +216,14 @@ $(window).on("load", function () {
         }, 3000);
     }
 
+    function showSnackbarFlag(){
+        var x = document.getElementById("snackbarFlag")
+        x.className = "show";
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 3000);
+    }
+
     // new version
     function flagPost($button) {
         // need to give an id to this button
@@ -242,6 +250,7 @@ $(window).on("load", function () {
                                             }
                                         })
                                     })
+                                showSnackbarFlag()
                                 // unflag it for everyone
                             } else {
                                 $button.removeClass(flaggedClass);
@@ -268,6 +277,7 @@ $(window).on("load", function () {
                                     $button.addClass(flaggedClass);
                                     flagged_users_new.push(currentUser)
                                     childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                    showSnackbarFlag()
                                     // unflag
                                 } else {
                                     $button.removeClass(flaggedClass);
