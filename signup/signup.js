@@ -61,6 +61,7 @@ $(document).ready(function(){
                 password: pwd1,
                 feed_uids: allCardUids,
                 my_posts_uids: [-1],
+                post_count: 0,
                 my_votes_uids: [{uid: 0, vote: 0}]
             });
 

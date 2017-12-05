@@ -234,14 +234,19 @@ $(window).on("load", function () {
                             userRef.once("value")
                                 .then(function (snapshot2) {
                                     snapshot2.forEach(function (childSnapshot2) {
-                                        flagged_users_new.push(childSnapshot2.val().ID.toString())
-                                        childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                        // if user is not already in the list
+                                        if (!flagged_users_new.includes(childSnapshot2.val().ID.toString())) {
+                                            flagged_users_new.push(childSnapshot2.val().ID.toString())
+                                            childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                        }
                                     })
                                 })
                         } else {
                                 flagged_users_new = childSnapshot.val().flagged_users
-                                flagged_users_new.push(currentUser)
-                                childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                if (!flagged_users_new.includes(childSnapshot2.val().ID.toString())) {
+                                    flagged_users_new.push(currentUser)
+                                    childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                }
                         }
                     }
                 })
