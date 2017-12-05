@@ -54,6 +54,16 @@ $(document).ready(function(){
                 x.className = x.className.replace("show", "");
             }, 3000);
         }
+        else if (id.length != 8) {
+            console.log(id.length)
+            var x = document.getElementById("snackbar");
+            x.innerHTML ="This is not a valid KAIST ID number";
+            x.className = "show";
+            $('#id').empty();
+            setTimeout(function () {
+                x.className = x.className.replace("show", "");
+            }, 3000);
+        }
         else if(pwd1 == pwd2 && pwd1 != ""){
             //ad new user to db
             userRef.push({
@@ -75,15 +85,6 @@ $(document).ready(function(){
                 window.location.href = "./index2.html";
             }, 2000);
 
-        } else if (id.length != 8) {
-            console.log(id.length)
-            var x = document.getElementById("snackbar");
-            x.innerHTML ="This is not a valid KAIST ID number";
-            x.className = "show";
-            $('#id').empty();
-            setTimeout(function () {
-                x.className = x.className.replace("show", "");
-            }, 3000);
         }
         else{
             var x = document.getElementById("snackbar");
