@@ -221,8 +221,6 @@ $(window).on("load", function () {
         // need to give an id to this button
         const flaggedClass = 'flagged';
         const notClickedClass = 'notClicked';
-        $button.removeClass(notClickedClass);
-        $button.addClass(flaggedClass);
         var cardUid = parseInt($button.closest("div .card").prop("id"));
         // add currentUser to flagged users
         cardRef.once("value")
@@ -231,21 +229,55 @@ $(window).on("load", function () {
                     if (childSnapshot.val().UID == cardUid) {
                         if ((currentUser == 20150950) || (currentUser == 20176472) || (currentUser == 20176478)) {
                             flagged_users_new = childSnapshot.val().flagged_users
-                            userRef.once("value")
-                                .then(function (snapshot2) {
-                                    snapshot2.forEach(function (childSnapshot2) {
-                                        // if user is not already in the list
-                                        if (!flagged_users_new.includes(childSnapshot2.val().ID.toString())) {
-                                            flagged_users_new.push(childSnapshot2.val().ID.toString())
-                                            childSnapshot.ref.update({flagged_users: flagged_users_new});
-                                        }
+                            if (!flagged_users_new.includes(currentUser)) {
+                                $button.removeClass(notClickedClass);
+                                $button.addClass(flaggedClass);
+                                userRef.once("value")
+                                    .then(function (snapshot2) {
+                                        snapshot2.forEach(function (childSnapshot2) {
+                                            // if user is not already in the list
+                                            if (!flagged_users_new.includes(childSnapshot2.val().ID.toString())) {
+                                                flagged_users_new.push(childSnapshot2.val().ID.toString())
+                                                childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                            }
+                                        })
                                     })
-                                })
+                                // unflag it for everyone
+                            } else {
+                                $button.removeClass(flaggedClass);
+                                $button.addClass(notClickedClass);
+                                var index = 0
+                                userRef.once("value")
+                                    .then(function (snapshot2) {
+                                        snapshot2.forEach(function (childSnapshot2) {
+                                            index = flagged_users_new.indexOf(childSnapshot2.val().ID.toString());
+                                            if (index > -1) {
+                                                flagged_users_new.splice(index, 1);
+                                                childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                            }
+
+                                        })
+                                    })
+                            }
                         } else {
+                                console.log('not admin')
                                 flagged_users_new = childSnapshot.val().flagged_users
-                                if (!flagged_users_new.includes(childSnapshot2.val().ID.toString())) {
+                                if (!flagged_users_new.includes(currentUser)) {
+                                    console.log('unflagged')
+                                    $button.removeClass(notClickedClass);
+                                    $button.addClass(flaggedClass);
                                     flagged_users_new.push(currentUser)
                                     childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                    // unflag
+                                } else {
+                                    $button.removeClass(flaggedClass);
+                                    $button.addClass(notClickedClass);
+                                    var index = flagged_users_new.indexOf(currentUser);
+                                    if (index > -1) {
+                                        flagged_users_new.splice(index, 1);
+                                        childSnapshot.ref.update({flagged_users: flagged_users_new});
+                                    }
+
                                 }
                         }
                     }
