@@ -144,9 +144,6 @@ body{
     float: left;
     margin-left: 20px;
 }
-.fa-flag{
-    font-size: 4.2rem;
-}
 .flagged{
     color: orangered;
 }
@@ -177,9 +174,6 @@ body{
     color: #5F5F5F;
     font-size: 1.8rem;
 }
-.fa-check{
-    font-size: 4.2rem;
-}
 .agreed {
     color:green;
 }
@@ -191,7 +185,16 @@ body{
     color: #5F5F5F;
 }
 .fa-times{
-    font-size: 4.2rem;
+    font-size: 4.5rem;
+}
+.fa-check{
+    font-size: 4.5rem;
+}
+.fa-flag{
+    font-size: 4.5rem;
+}
+.fa-angle-double-down {
+    font-size: 4.5rem;
 }
 .disagreed{
     color: firebrick;
