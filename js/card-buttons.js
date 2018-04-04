@@ -19,11 +19,14 @@ function flagPost($button) {
         .then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 if (childSnapshot.val().UID == cardUid) {
+                    // apply different rules if current user is one of the admins
                     if ((currentUser == 20150950) || (currentUser == 20176472) || (currentUser == 20176478)) {
-                        flagged_users_new = childSnapshot.val().flagged_users
+                        flagged_users_new = childSnapshot.val().flagged_users;
+                        // The card has been flagged (not unflagged)
                         if (!flagged_users_new.includes(currentUser)) {
                             $button.removeClass(notClickedClass);
                             $button.addClass(flaggedClass);
+                            // add everyone to the flagged_users list of the current card
                             userRef.once("value")
                                 .then(function (snapshot2) {
                                     snapshot2.forEach(function (childSnapshot2) {
@@ -35,11 +38,12 @@ function flagPost($button) {
                                     })
                                 })
                             showSnackbarFlag()
-                            // unflag it for everyone
+                        // The card has been unflagged
                         } else {
                             $button.removeClass(flaggedClass);
                             $button.addClass(notClickedClass);
                             index = 0
+                            // remove everyone from the flagged_users list of the current card
                             userRef.once("value")
                                 .then(function (snapshot2) {
                                     snapshot2.forEach(function (childSnapshot2) {
@@ -52,9 +56,11 @@ function flagPost($button) {
                                     })
                                 })
                         }
+                    // if current user is NOT one of the admins
                     } else {
                         console.log('not admin')
-                        flagged_users_new = childSnapshot.val().flagged_users
+                        flagged_users_new = childSnapshot.val().flagged_users;
+                        // if the user has flagged the post
                         if (!flagged_users_new.includes(currentUser)) {
                             console.log('unflagged')
                             $button.removeClass(notClickedClass);
@@ -62,7 +68,7 @@ function flagPost($button) {
                             flagged_users_new.push(currentUser)
                             childSnapshot.ref.update({flagged_users: flagged_users_new});
                             showSnackbarFlag()
-                            // unflag
+                        // if the user has unflagged the post
                         } else {
                             $button.removeClass(flaggedClass);
                             $button.addClass(notClickedClass);
@@ -93,7 +99,7 @@ function agree($button) {
     var old_disagree_count = 0;
     var my_votes_uids_new = [];
 
-    // if this is an "anti-click"
+    // if the user has "anti-clicked" the agree button
     if ($button.hasClass(agreedClass)) {
         $button.removeClass(agreedClass);
         $button.addClass(notClickedClass);
@@ -113,14 +119,13 @@ function agree($button) {
         remove_my_vote_uid(cardUid)
         add_feed_uid(cardUid, currentUser)
 
-        // remove card
+        // slowly hide the card
         $('#' + cardUid).toggle('slide');
 
+    // if the user has clicked the agree button
     } else {
         $button.removeClass(notClickedClass);
         $button.addClass(agreedClass);
-
-
         cardUid = parseInt($button.closest("div .card").prop("id"));
         // update agree_count
         database.ref('cards').once("value")
@@ -135,7 +140,7 @@ function agree($button) {
                         }
                         document.getElementById("agree-count" + cardUid).innerHTML = old_agree_count + 1
                         childSnapshot.ref.update({agree_count: old_agree_count + 1});
-                        // if post was priorly downvoted
+                        // if post was priorly downvoted, anti-click the 'disagree' button
                         if (document.getElementById("disagreeBtn" + cardUid).classList.contains('disagreed')) {
                             // visually "uncheck" disagreed button
                             document.getElementById("disagreeBtn" + cardUid).classList.remove("disagreed")
@@ -143,8 +148,7 @@ function agree($button) {
                             document.getElementById("disagree-count" + cardUid).innerHTML = old_disagree_count - 1
                             // update count in firebase
                             childSnapshot.ref.update({disagree_count: old_disagree_count - 1})
-                            // update status in firebase. Don't have to delete the record. Just change its vote status.
-                            // don't use add_my_vote_uid. Just update vote status. Use it in else cause. This will work smoothly
+                            // update the vote status for the card in my_votes_uids
                             userRef.once("value")
                                 .then(function(snapshot) {
                                     snapshot.forEach(function(childSnapshot) {
@@ -173,7 +177,7 @@ function agree($button) {
         // Add snackbar (toast message)
         showSnackbar();
 
-        // remove card
+        // slowly hide the card
         $('#' + cardUid).toggle('slide');
     }
 
@@ -193,7 +197,7 @@ function disAgree($button) {
     var old_disagree_count = 0;
     var my_votes_uids_new = [];
 
-    // if this is "anti-click"
+    // if the user has "anti-clicked" the 'disagree' button
     if ($button.hasClass(disagreedClass)) {
         $button.removeClass(disagreedClass);
         $button.addClass(notClickedClass);
@@ -213,9 +217,9 @@ function disAgree($button) {
         remove_my_vote_uid(cardUid)
         add_feed_uid(cardUid, currentUser)
 
-        // remove card
+        // slowly hide the card
         $('#' + cardUid).toggle('slide');
-
+    // if the user has clicked the 'disagree' button
     } else {
         $button.removeClass(notClickedClass);
         $button.addClass(disagreedClass);
@@ -232,7 +236,7 @@ function disAgree($button) {
                         remove_feed_uid(cardUid)
                         document.getElementById("disagree-count" + cardUid).innerHTML = old_disagree_count + 1
                         childSnapshot.ref.update({disagree_count: old_disagree_count + 1});
-                        // if post was priorly upvoted
+                        // // if post was priorly upvoted, anti-click the 'agree' button
                         if (document.getElementById("agreeBtn" + cardUid).classList.contains('agreed')) {
                             // visually "uncheck" agreed button
                             document.getElementById("agreeBtn" + cardUid).classList.remove("agreed")
@@ -240,8 +244,7 @@ function disAgree($button) {
                             document.getElementById("agree-count" + cardUid).innerHTML = old_agree_count - 1
                             // update count in firebase
                             childSnapshot.ref.update({agree_count: old_agree_count - 1})
-                            // update status in firebase. Don't have to delete the record. Just change its vote status.
-                            // don't use add_my_vote_uid. Just update vote status. Use it in else cause. This will work smoothly
+                            // update the vote status for the card in my_votes_uids
                             userRef.once("value")
                                 .then(function(snapshot) {
                                     snapshot.forEach(function(childSnapshot) {
@@ -266,7 +269,7 @@ function disAgree($button) {
 
         showSnackbar();
 
-        // remove card
+        // slowly hide the card
         $('#' + cardUid).toggle('slide');
     }
 

@@ -1,7 +1,5 @@
-// When site had loaded
 $(window).on("load", function () {
 
-    //Run main function
     start();
 
     function start() {

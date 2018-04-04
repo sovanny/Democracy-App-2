@@ -143,9 +143,12 @@ function add_new_post_to_feed(uid) {
 */
 function loadCardContent($view, uidList, list_type) {
     var cardContent = database.ref('cards');
-    var agreedClass = "", disagreedClass = "", cardStatusClass = "", statusTextHtml = "", flag_class = "";
+    var agreedClass = "";
+    var disagreedClass = "";
+    var cardStatusClass = "";
+    var statusTextHtml = "";
+    var flag_class = "";
 
-    // empty the current content
     $view.empty();
 
     // display cards
@@ -158,9 +161,8 @@ function loadCardContent($view, uidList, list_type) {
                     agreedClass = 'notClicked';
                     disagreedClass = "notClicked";
 
-                    /////////////////////////////////// only this is specific to votes - start
                     if (list_type == 'votes') {
-                        if (uidList[uidList.indexOf(card.UID) + 1] == -2) {   /// can get bugs here if card is stored several times
+                        if (uidList[uidList.indexOf(card.UID) + 1] == -2) {
                             disagreedClass = "disagreed";
                         } else if (uidList[uidList.indexOf(card.UID) + 1] == -1) {
                             agreedClass = "agreed";
@@ -168,7 +170,7 @@ function loadCardContent($view, uidList, list_type) {
                     } else if (list_type == 'my_posts') {
                         agreedClass = "agreed"
                     }
-                    /////////////////////////////////// only this is specific to votes - end
+
                     cardStatusClass = 'unhandled';
                     // When the status field is available
                     if (card.stage == 1) {
@@ -200,15 +202,13 @@ function loadCardContent($view, uidList, list_type) {
                         }
                         statusTextHtml += "</div>";
                     }
-                    // should be changed to determine this from flagged_uids instead
                     if (card.flagged_users.includes(currentUser)) {
                         console.log("this card has been flagged: " + card.UID)
                         flag_class = "flagged"
                     } else {
                         flag_class = "notClicked"
                     }
-                    // new version
-                    //
+                    // append the card to the view
                     $view.prepend("<div class=\"card " + cardStatusClass + "\"" + "id=\"" + card.UID + "\"" + ">\n" +
                         "        <p class=\"card-title \">\n" +
                         card.title +

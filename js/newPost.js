@@ -2,6 +2,7 @@ var userRef = database.ref("users")
 var cardRef = database.ref("cards")
 var next_uidRef = database.ref("next_uid")
 var next_uid = 0;
+
 /*
     get the uid to be assigned to the post about to be created
  */
@@ -10,20 +11,6 @@ next_uidRef.once("value")
         snapshot.forEach(function(childSnapshot) {
             next_uid = childSnapshot.val();
         })})
-
-
-/* Make an element "snackbarNewPost" visible
-   @param: none
-   @return: none
-*/
-function showSnackbarNewPost(){
-    var x = document.getElementById("snackbarNewPost")
-    x.className = "show";
-    setTimeout(function () {
-        x.className = x.className.replace("show", "");
-    }, 3000);
-}
-
 
 $(document).ready(function(){
     $('#feed-container').on('click', '#postBtn', function(e){
@@ -66,8 +53,6 @@ $(document).ready(function(){
                             // add the post to everyone's feed
                             add_new_post_to_feed(next_uid)
 
-                            // don't add it to my_votes
-
                             next_uidRef.once("value")
                                 .then(function (snapshot) {
                                     snapshot.forEach(function (childSnapshot) {
@@ -86,6 +71,7 @@ $(document).ready(function(){
                                 // Run selectTab and loadCardContent once in order to show something upon loading
                                 selectTab($tabs, $($tabs[2]))
                             }, 1500);
+                        // if posted too > 3 times
                         } else {
                            showSnackbarNewPost();
                            console.log("you've posted too many posts, please come tomorrow")
@@ -100,9 +86,9 @@ $(document).ready(function(){
 });
 
 
-/*
-   @param:
-   @return:
+/* Describes the behavior of the tab bar at the bottom of the screen with respect to classes assigned to different elements
+   @param: tabs, tab
+   @return: none
 */
 function selectTab($tabs, $tab) {
     const selectedClass = 'selected';
@@ -114,6 +100,17 @@ function selectTab($tabs, $tab) {
 }
 
 
+/* Make an element "snackbarNewPost" visible
+   @param: none
+   @return: none
+*/
+function showSnackbarNewPost(){
+    var x = document.getElementById("snackbarNewPost")
+    x.className = "show";
+    setTimeout(function () {
+        x.className = x.className.replace("show", "");
+    }, 3000);
+}
 
 
 
