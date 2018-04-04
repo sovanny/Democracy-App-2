@@ -3,8 +3,6 @@ body {
 }
 
 #backBtn {
-    /*float: left;*/
-    /*width: 30%;*/
     width: 300px;
     font-size: xx-large;
     background-color: #30A9F3;
@@ -16,14 +14,6 @@ body {
     cursor: pointer;
     height: 120px;
 }
-
-/*#header {*/
-    /*height: 50px;*/
-    /*margin-top: 20px;*/
-    /*margin-bottom: 80px;*/
-    /*font-size: 4rem;*/
-    /*text-align: center;*/
-/*}*/
 
 #aboutDiv {
     width: 95%;

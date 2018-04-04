@@ -1,4 +1,3 @@
-//firebase();
 var config = {
     apiKey: "AIzaSyAlgtMKytcxjYYTxjIGiDgUEUm5yVOf3X0",
     authDomain: "democracy-app-2.firebaseapp.com",
@@ -7,18 +6,19 @@ var config = {
     storageBucket: "democracy-app-2.appspot.com",
     messagingSenderId: "895134222441"
 };
-
-
 firebase.initializeApp(config);
 var database = firebase.database()
-
 var userRef = database.ref("users")
 var cardRef = database.ref("cards")
 
 
 
+
 $(document).ready(function(){
-    allCardUids = [];
+    var allCardUids = [], allUserIDs = [];
+    var card;
+    var user_id = 0;
+
     cardRef.once("value")
         .then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
@@ -26,22 +26,24 @@ $(document).ready(function(){
                 allCardUids.push(card.UID);
             })});
 
-    allUserIDs = [];
     userRef.once("value")
         .then(function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
                 user_id = childSnapshot.val().ID;
                 allUserIDs.push(user_id.toString());
-                //console.log(allUserIDs[0])
             })});
 
 
+    /*
+        The sign up button
+    */
     $("#signupBtn").click(function(){
 
 
-        id = document.getElementById("id").value;
-        pwd1 = document.getElementById("password1").value;
-        pwd2 = document.getElementById("password2").value;
+        var id = document.getElementById("id").value;
+        var pwd1 = document.getElementById("password1").value;
+        var pwd2 = document.getElementById("password2").value;
+        var x;
 
         if(allUserIDs.indexOf(id) > -1){
             var x = document.getElementById("snackbar");
@@ -55,7 +57,6 @@ $(document).ready(function(){
             }, 3000);
         }
         else if (id.length != 8) {
-            console.log(id.length)
             var x = document.getElementById("snackbar");
             x.innerHTML ="This is not a valid KAIST ID number";
             x.className = "show";
@@ -65,7 +66,7 @@ $(document).ready(function(){
             }, 3000);
         }
         else if(pwd1 == pwd2 && pwd1 != ""){
-            //ad new user to db
+            //add new user to db
             userRef.push({
                 ID: id,
                 password: pwd1,
@@ -75,19 +76,19 @@ $(document).ready(function(){
                 my_votes_uids: [{uid: 0, vote: 0}]
             });
 
-            var x = document.getElementById("snackbar");
+            x = document.getElementById("snackbar");
             x.innerHTML ="New user created and signed in";
             x.className = "show";
 
             setTimeout(function () {
                 x.className = x.className.replace("show", "");
                 localStorage.setItem("currentUser",id);
-                window.location.href = "./index2.html";
+                window.location.href = "mainPage.html";
             }, 2000);
 
         }
         else{
-            var x = document.getElementById("snackbar");
+            x = document.getElementById("snackbar");
             x.innerHTML ="Passwords don't match";
             x.className = "show";
 
@@ -97,9 +98,6 @@ $(document).ready(function(){
             setTimeout(function () {
                 x.className = x.className.replace("show", "");
             }, 3000);
-
-
-
         }
 
 

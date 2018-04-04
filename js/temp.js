@@ -4,8 +4,9 @@
 //             if (childSnapshot.val().UID > 9) {
 //                 childSnapshot.ref.remove()
 //             }
-//         })
-//         })
+/*
+This file is used to create some temporary functions used in experiments or testing
+*/
 
 
 // userRef.push({
@@ -97,3 +98,34 @@
 
 
 // update post counts once a day
+
+// calculate number of users:
+// var x = 0
+// userRef.once("value")
+//     .then(function (snapshot) {
+//         snapshot.forEach(function (childSnapshot) {
+//             x += 1
+//             console.log(x)
+//         })
+//     })
+
+// voting simulation for the video
+// var delayInMilliseconds = 100;
+// i = 0
+//
+// vote = setInterval(function() {
+//    // if (i > 30) {
+//         $("#agreeBtn70").click()
+//         if (i % 10 === 0) {
+//             $("#disagreeBtn70").click()
+//         }
+//         i++
+//         // console.log('one')
+//     // }
+//     // i++
+// }, delayInMilliseconds);
+//
+//
+// setTimeout(function(){
+//     clearInterval(vote); //clear above interval after 5 seconds
+// },60000);

@@ -40,13 +40,3 @@ input[type=text]::-webkit-input-placeholder, input[type=password]::-webkit-input
     font-weight: 800;
     height: 50px;
 }
-
-/*#feedbackBtn {*/
-    /*background-color: #505050;*/
-    /*color: white;*/
-    /*padding: 14px 20px;*/
-    /*margin: 8px 0;*/
-    /*border: none;*/
-    /*cursor: pointer;*/
-    /*width: 100%;*/
-/*}*/
